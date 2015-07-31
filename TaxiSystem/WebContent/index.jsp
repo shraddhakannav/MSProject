@@ -4,9 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Taxi Services</title>
 </head>
 <body>
-HIIIII
+<h1 align="center">
+Welcome to the TAXI/Instant Cab Services.
+</h1>
+
+<a href="">Book a Taxi</a><br/>
+<a href="">Book a Uber</a><br/>
+<a href="">Advance Booking</a><br/>
+<a href="">Register as Customer Member</a><br/>
+
 </body>
 </html>
