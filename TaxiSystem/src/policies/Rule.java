@@ -1,31 +1,29 @@
 package policies;
 
 public abstract class Rule {
-	private int	RuleId;
+	private int RuleId;
 	private String ruleDescription;
-	public void makeARule(){
+
+	public void makeARule() {
 		setProposedRule();
-		if(makeCorrections())
-		{
+		if (makeCorrections()) {
 			addCorrections();
 		}
 		getApproval();
 		publishRule();
 
-
-
 	}
-
 
 	public abstract void setProposedRule();
 
-	public void getApproval (){
+	public void getApproval() {
 		System.out.println("Rule has been approved");
 	}
-	public void	publishRule(){
+
+	public void publishRule() {
 		System.out.println("The following rule has been published");
-		System.out.println("Rule Id: "+getRuleId());
-		System.out.println("Rule description: "+getRuleDescription());
+		System.out.println("Rule Id: " + getRuleId());
+		System.out.println("Rule description: " + getRuleDescription());
 	}
 
 	public boolean makeCorrections() {
@@ -34,7 +32,6 @@ public abstract class Rule {
 	}
 
 	public abstract void addCorrections();
-
 
 	public int getRuleId() {
 		return RuleId;
@@ -47,7 +44,6 @@ public abstract class Rule {
 	public String getRuleDescription() {
 		return ruleDescription;
 	}
-
 
 	public void setRuleDescription(String ruleDescription) {
 		this.ruleDescription = ruleDescription;

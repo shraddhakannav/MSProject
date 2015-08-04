@@ -54,7 +54,7 @@
 		<br /> Car Type: <INPUT TYPE="radio" NAME="cabtype" VALUE="uberx"
 			CHECKED> UberX | <INPUT TYPE="radio" NAME="cabtype"
 			VALUE="uberlx"> UberLX <br />
-		<h4>Pickup Location:</h4>
+		<h4>Pickup Location: </h4>
 		<h4>Destination:</h4>
 		<h4>Cost Estimation:</h4>
 		<input type="button" value="Cancel"> | <input type="submit"

@@ -4,10 +4,11 @@ import policies.DispatchRules;
 
 public class BookingHandler {
 
-	public static void main(String[] args) {
-
-		new BookingHandler().bookRequest();
-	}
+//	public static void main(String[] args) {
+//
+//		new BookingHandler().bookRequest();
+//	}
+	
 	public void bookRequest(){
 
 		//		Bid bid = new Bid();
