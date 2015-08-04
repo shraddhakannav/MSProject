@@ -15,8 +15,8 @@ public class Phone extends Communication {
 	public void notifyMember() {
 		notifyCustomers(id, "Calling to Customer " + id);
 		notifyDrivers(id, "Calling to Driver " + id);
-		System.out.println("Calling on phone: '" + phone + "' to Customer and Driver"
-				+ id);
+		System.out.println("Calling on phone: '" + phone
+				+ "' to Customer and Driver" + id);
 	}
 
 }
