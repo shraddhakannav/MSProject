@@ -8,7 +8,6 @@
 <script>
 	$(function() {
 		$("#datepicker").datepicker();
-		$("#timepicker").timepicker();
 	});
 </script>
 <head>
