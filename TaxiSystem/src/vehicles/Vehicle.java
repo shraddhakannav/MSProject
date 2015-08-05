@@ -1,6 +1,6 @@
 package vehicles;
 
-public class Vehicle implements IVehicle{
+public class Vehicle implements IVehicle {
 	
 	IVehicleState state;
 	
