@@ -45,16 +45,15 @@
 		<script>
 			$("input[type=radio][checked]").each(function() {
 		</script>
-		Date: <input type="text" id="datepicker" /> |
-		Time: <input type="text" id="timepicker" />
+		Date: <input type="date" id="datepicker" /> | Time: <input
+			type="time" id="timepicker" />
 		<script>
 			});
 		</script>
-
-		<br /> Car Type: <INPUT TYPE="radio" NAME="cabtype" VALUE="uberx"
-			CHECKED> UberX | <INPUT TYPE="radio" NAME="cabtype"
-			VALUE="uberlx"> UberLX <br />
-		<h4>Pickup Location: </h4>
+		<br /> <br /> Car Type: <INPUT TYPE="radio" NAME="cabtype"
+			VALUE="uberx" CHECKED> UberX | <INPUT TYPE="radio"
+			NAME="cabtype" VALUE="uberlx"> UberLX <br />
+		<h4>Pickup Location:</h4>
 		<h4>Destination:</h4>
 		<h4>Cost Estimation:</h4>
 		<input type="button" value="Cancel"> | <input type="submit"
