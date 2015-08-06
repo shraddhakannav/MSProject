@@ -3,6 +3,8 @@ package members;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import bookings.Fare;
+
 public class Driver extends Member {
 
 	String licenceNo;
@@ -59,5 +61,15 @@ public class Driver extends Member {
 				+ this.getShiftEndTime() + " on " + this.getShiftDays() + "]";
 
 		return super.toString() + " " + driverStr;
+	}
+
+	// Observer Pattern for bidding
+	@Override
+	public void update(Fare fare, String message) {
+		System.out.println("Notified Driver: " + this.getName());
+		if (message != null && !message.isEmpty()) {
+			System.out.println("The message is: " + message);
+		}
+
 	}
 }

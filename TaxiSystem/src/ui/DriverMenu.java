@@ -89,7 +89,7 @@ public class DriverMenu {
 			System.out.println("Please enter details: ");
 
 			System.out.println("Do you want to Subscribe for Bid requests ?: ");
-			rtequest.setRequestType(reader.readLine());
+			request.setRequestType(reader.readLine());
 
 			System.out.println("Pick Up Location: ");
 			request.setPickUpLocation(reader.readLine());
