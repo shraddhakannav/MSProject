@@ -50,38 +50,42 @@ public class MainMenu {
 	}
 
 	private void printStaffMenu() {
-		System.out.println();
-		System.out
-				.println("Staff Management Menu____________________________________");
-		System.out.println("1. Register for vehicle");
-		System.out.println("2. Retrieve List of Vehicles");
-		System.out.println("3. Search for Vehicle");
-		System.out.println("4. Retrieve List of Customers");
-		System.out.println("5. Search for Customer");
-		System.out.println("0. Go to Main Menu");
-		System.out.println("Please Enter you Option: ");
 		try {
-			String line = MainStart.getReader().readLine();
-			if (line.isEmpty() || line.length() >= 2) {
-				System.out.println("Wrong Input. Please enter again.");
-				printMainMenu();
-			} else {
-				int option = Integer.parseInt(line);
-				switch (option) {
-				case 0:
+			while (true) {
+				System.out.println();
+				System.out
+						.println("Staff Management Menu____________________________________");
+				System.out.println("1. Register for vehicle");
+				System.out.println("2. Retrieve List of Vehicles");
+				System.out.println("3. Search for Vehicle");
+				System.out.println("4. Retrieve List of Customers");
+				System.out.println("5. Search for Customer");
+				System.out.println("0. Go to Main Menu");
+				System.out.println("Please Enter you Option: ");
+				String line = MainStart.getReader().readLine();
+				if (line.isEmpty() || line.length() >= 2) {
+					System.out.println("Wrong Input. Please enter again.");
 					printMainMenu();
-					break;
-				case 1:
+				} else {
+					int option = Integer.parseInt(line);
+					switch (option) {
+					case 0:
+						break;
+					case 1:
 
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
-					break;
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					case 4:
+						break;
+					case 5:
+						break;
+					}
+					if (option == 0) {
+						break;
+					}
 				}
 			}
 		} catch (IOException e) {
@@ -91,31 +95,35 @@ public class MainMenu {
 	}
 
 	private void printDriverMenu() {
-		System.out.println();
-		System.out
-				.println("Vehicle and Driver Menu____________________________________");
-		System.out.println("1. Registration");
-		System.out.println("2. Login");
-		System.out.println("3. Subscribe for bid requests");
-		System.out.println("0. Go to Main Menu");
-		System.out.println("Please Enter you Option: ");
 		try {
-			String line = MainStart.getReader().readLine();
-			if (line.isEmpty() || line.length() >= 2) {
-				System.out.println("Wrong Input. Please enter again.");
-				printMainMenu();
-			} else {
-				int option = Integer.parseInt(line);
-				switch (option) {
-				case 0:
+			while (true) {
+				System.out.println();
+				System.out
+						.println("Vehicle and Driver Menu____________________________________");
+				System.out.println("1. Registration");
+				System.out.println("2. Login");
+				System.out.println("3. Subscribe for bid requests");
+				System.out.println("0. Go to Main Menu");
+				System.out.println("Please Enter you Option: ");
+				String line = MainStart.getReader().readLine();
+				if (line.isEmpty() || line.length() >= 2) {
+					System.out.println("Wrong Input. Please enter again.");
 					printMainMenu();
-					break;
-				case 1:
-					break;
-				case 2:
-					break;
-				case 3:
-					break;
+				} else {
+					int option = Integer.parseInt(line);
+					switch (option) {
+					case 0:
+						break;
+					case 1:
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					}
+					if (option == 0) {
+						break;
+					}
 				}
 			}
 		} catch (IOException e) {
