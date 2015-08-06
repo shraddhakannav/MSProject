@@ -6,17 +6,35 @@ public class Customer extends Member {
 
 	double creditCardNo;
 	int cvv;
-	Date expirationDate;
-	String membershipPlan;
+	String expirationDate;
+
+	public double getCreditCardNo() {
+		return creditCardNo;
+	}
+
+	public void setCreditCardNo(double creditCardNo) {
+		this.creditCardNo = creditCardNo;
+	}
+
+	public int getCvv() {
+		return cvv;
+	}
+
+	public void setCvv(int cvv) {
+		this.cvv = cvv;
+	}
+
+	public String getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(String expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
 
 	@Override
 	public String toString() {
-
-		String string = this.getFirstName() + "" + this.getLastName()
-				+ "(address: " + this.getAddress() + ", email: "
-				+ this.getEmail() + ", Contact No: " + this.getContactNo()
-				+ ") DOB: " + this.getDOB() + " " + this.gender;
-
-		return string;
+		return super.toString();
 	}
 }

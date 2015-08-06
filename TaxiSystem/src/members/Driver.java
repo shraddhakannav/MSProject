@@ -54,16 +54,10 @@ public class Driver extends Member {
 	@Override
 	public String toString() {
 
-		String string = this.getFirstName() + "" + this.getLastName()
-				+ "(address: " + this.getAddress() + ", email: "
-				+ this.getEmail() + ", Contact No: " + this.getContactNo()
-				+ ") DOB: " + this.getDOB() + " " + this.gender;
+		String driverStr = "\nRegistartion Date: " + this.getRegistrationDate()
+				+ " [" + this.getShiftStartTime() + " to "
+				+ this.getShiftEndTime() + " on " + this.getShiftDays() + "]";
 
-		String driverStr = "\nRegistartion Date: "
-				+ this.getRegistrationDate() + " [" + this.getShiftStartTime()
-				+ " to " + this.getShiftEndTime() + " on "
-				+ this.getShiftDays() + "]";
-
-		return string + " " + driverStr;
+		return super.toString() + " " + driverStr;
 	}
 }

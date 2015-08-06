@@ -10,46 +10,73 @@
 <title>Passenger Login</title>
 </head>
 <body>
-	<form action="login">
-		<table align="center">
-			<tr>
-				<td>UserName:</td>
-				<td><input type="text" id="username" /></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type="password" id="password" /></td>
-			</tr>
-			<tr>
-				<td><input type="button" value="Cancel"></td>
-				<td><input type="submit" value="Log In"></td>
-			</tr>
-		</table>
-	</form>
 
 	<form action="" align="center">
 
 		<h1>Welcome User</h1>
-		<h2>Book A Taxi</h2>
-		<h3>Phone details : 585 298 3940</h3>
-		<br /> <br />
 
-		<h2>Book an InstantCab</h2>
-		<INPUT TYPE="radio" NAME="cabtime" VALUE="now" CHECKED> Now |
-		<INPUT TYPE="radio" NAME="cabtime" VALUE="later"> Later <BR />
-		<script>
-			$("input[type=radio][checked]").each(function() {
-		</script>
-		Date: <input type="date" id="datepicker" /> | Time: <input
-			type="time" id="timepicker" />
-		<script>
-			});
-		</script>
-		<br /> <br /> Car Type: <INPUT TYPE="radio" NAME="cabtype"
-			VALUE="uberx" CHECKED> UberX | <INPUT TYPE="radio"
-			NAME="cabtype" VALUE="uberlx"> UberLX <br />
-		<h4>Pickup Location:</h4>
-		<h4>Destination:</h4>
+		<table align="center">
+			<tr>
+				<td>
+					<h2>Book A Taxi</h2>
+				</td>
+				<td>
+					<h3>Phone details : 585 298 3940</h3>
+				</td>
+			</tr>
+		
+			<tr>
+					<h2>Book an InstantCab</h2>
+			</tr>
+			<tr>
+				<td><INPUT TYPE="radio" NAME="cabtime" VALUE="now" CHECKED>
+					Now |</td>
+				<td><INPUT TYPE="radio" NAME="cabtime" VALUE="later">
+					Later <BR /></td>
+			</tr>
+			<tr>
+				<td>
+					<h2>Date:</h2>
+				</td>
+				<td><input type="date" id="datepicker" /></td>
+			</tr>
+			<tr>
+				<td>
+					<h2>Time:</h2>
+				</td>
+				<td><input type="time" id="timepicker" /></td>
+			</tr>
+			
+			<tr>
+			<h2>
+			Cab Type:
+			</h2>
+			
+		<INPUT TYPE="radio" NAME="cabtype"
+			VALUE="instantcab" CHECKED> InstantCab | <INPUT TYPE="radio"
+			NAME="cabtype" VALUE="luxurycab"> LuxuryCab <br />
+			</tr>
+		</table>
+
+		<h4>
+			Pickup Location: <select id="pickuplocations">
+				<option>Location 1</option>
+				<option>Location 2</option>
+				<option>Location 3</option>
+				<option>Location 4</option>
+				<option>Location 5</option>
+			</select>
+
+		</h4>
+		<h4>
+			Destination:<select id="droplocations">
+				<option>Location 1</option>
+				<option>Location 2</option>
+				<option>Location 3</option>
+				<option>Location 4</option>
+				<option>Location 5</option>
+			</select>
+		</h4>
 		<h4>Cost Estimation:</h4>
 		<input type="button" value="Cancel"> | <input type="submit"
 			value="Log In">

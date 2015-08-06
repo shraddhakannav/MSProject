@@ -41,14 +41,9 @@ public class Staff extends Member {
 	@Override
 	public String toString() {
 
-		String string = this.getFirstName() + "" + this.getLastName()
-				+ "(address: " + this.getAddress() + ", email: "
-				+ this.getEmail() + ", Contact No: " + this.getContactNo()
-				+ ") DOB: " + this.getDOB() + " " + this.gender;
-
 		String staffStr = "[" + this.getBranchName() + "(" + this.getBranchId()
 				+ ")" + this.getDesignation() + "]";
 
-		return string + " " + staffStr;
+		return super.toString() + " " + staffStr;
 	}
 }

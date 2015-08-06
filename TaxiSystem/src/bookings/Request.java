@@ -10,9 +10,9 @@ public class Request implements RequestInterface {
 
 	private String pickUpLocation;
 	private String	destination;
-	private int	FareEstimation;
 	private Date bookingDate;
 	private String CarType;
+	private int	FareEstimation;
 	private Bid bid;
 	private boolean petFriendlyFlag;
 	private boolean CarSeatFlag;
