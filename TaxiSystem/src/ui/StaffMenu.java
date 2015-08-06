@@ -22,15 +22,51 @@ public class StaffMenu {
 	// System.out.println("4. Retrieve List of Customers");
 	// System.out.println("5. Search for Customer");
 
-	public void registerForVehicle() {
+	public Vehicle registerForVehicle() {
 
 		try {
-			// Priya's code
+
+			Vehicle vehicle = new Vehicle();
+			System.out.println();
+			System.out
+					.println("___________________________________________________________________");
+			System.out.println("Vehicle registration form");
+			System.out
+					.println("___________________________________________________________________");
+			System.out.println("Please enter details: ");
+
+			System.out.println("Vehicle Color: ");
+			vehicle.setVehicleColor(reader.readLine());
+
+			System.out.println("Vehicle Type: ");
+			vehicle.setVehicleType(reader.readLine());
+
+			System.out.println("Car Model No: ");
+			vehicle.setModelNo(reader.readLine());
+
+			System.out.println("License Plate No: ");
+			vehicle.setLicensePlate(reader.readLine());
+
+			System.out.println("Enter Driver Name: ");
+			vehicle.setDriverName(reader.readLine());
+
+			System.out.println("Do you want to Submit registration? [y:n]: ");
+			if (reader.readLine().equalsIgnoreCase("y")) {
+				System.out.println("Vehicle is successfully registered.");
+				return vehicle;
+
+			} else {
+				System.out.println("Successfully Cancelled.");
+				return null;
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		System.out
+				.println("You are not registered as some values are either empty or not set properly.");
+		return null;
 	}
 
 	public void retrieveListOfVehicles() {

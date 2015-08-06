@@ -1,6 +1,5 @@
 package vehicles;
 
-import members.Driver;
 
 public class Vehicle implements IVehicle {
 
@@ -10,7 +9,7 @@ public class Vehicle implements IVehicle {
 	private String vehicleType;
 	private String modelNo;
 	private String licensePlate;
-	private Driver driver;
+	private String driverName;
 
 	public int getVehicleId() {
 		return vehicleId;
@@ -44,14 +43,6 @@ public class Vehicle implements IVehicle {
 		this.modelNo = modelNo;
 	}
 
-	public Driver getDriver() {
-		return driver;
-	}
-
-	public void setDriver(Driver driver) {
-		this.driver = driver;
-	}
-
 	public IVehicleState getState() {
 		return state;
 	}
@@ -83,6 +74,14 @@ public class Vehicle implements IVehicle {
 
 	public void setLicensePlate(String licensePlate) {
 		this.licensePlate = licensePlate;
+	}
+
+	public String getDriverName() {
+		return driverName;
+	}
+
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
 	}
 
 }
