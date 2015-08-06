@@ -50,7 +50,7 @@ public class CustomerMenu {
 
 			System.out.println("Do you want to Submit registration? [y:n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
-				System.out.println("You are successfuly registerred.");
+				System.out.println("You are successfully registered.");
 
 				return customer;
 

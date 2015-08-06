@@ -6,24 +6,24 @@ import java.util.ArrayList;
 public class Driver extends Member {
 
 	String licenceNo;
-	Date registrationDate;
+	String registrationDate;
 	ArrayList<String> shiftDays;
-	double shiftStartTime;
-	double shiftEndTime;
+	String shiftStartTime;
+	String shiftEndTime;
 
 	public String getLicenceNo() {
 		return licenceNo;
 	}
 
-	public void setLicenceNo(String licenceNo) {
-		this.licenceNo = licenceNo;
+	public void setLicenceNo(String d) {
+		this.licenceNo = d;
 	}
 
-	public Date getRegistrationDate() {
+	public String getRegistrationDate() {
 		return registrationDate;
 	}
 
-	public void setRegistrationDate(Date registrationDate) {
+	public void setRegistrationDate(String registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 
@@ -35,19 +35,19 @@ public class Driver extends Member {
 		this.shiftDays = shiftDays;
 	}
 
-	public double getShiftStartTime() {
+	public String getShiftStartTime() {
 		return shiftStartTime;
 	}
 
-	public void setShiftStartTime(double shiftStartTime) {
+	public void setShiftStartTime(String shiftStartTime) {
 		this.shiftStartTime = shiftStartTime;
 	}
 
-	public double getShiftEndTime() {
+	public String getShiftEndTime() {
 		return shiftEndTime;
 	}
 
-	public void setShiftEndTime(double shiftEndTime) {
+	public void setShiftEndTime(String shiftEndTime) {
 		this.shiftEndTime = shiftEndTime;
 	}
 
