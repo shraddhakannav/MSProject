@@ -58,10 +58,12 @@ public class DriverMenu {
 			} else {
 				driver.setObserver(false);
 			}
-			
+
 			System.out.println("Do you want to Submit registration? [y:n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
 				System.out.println("You are successfully registered.");
+
+				loggedDriver = driver;
 
 				return driver;
 
@@ -111,15 +113,18 @@ public class DriverMenu {
 
 	}
 
-	public Request subscribeBid(Driver driver) {
+	public Request subscribeBid() {
 
 		try {
 
 			Bid bid = new Bid();
 			loggedDriver.setObserver(true);
-			
+
 			bid.addObserver(loggedDriver);
-			System.out.println("Dear Driver: " + loggedDriver.getName() + ", you are successfully subscribed to the bidding fares.");
+			System.out
+					.println("Dear Driver: "
+							+ loggedDriver.getName()
+							+ ", you are successfully subscribed to the bidding fares.");
 
 		} catch (Exception e) {
 			e.printStackTrace();

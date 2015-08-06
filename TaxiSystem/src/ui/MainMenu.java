@@ -3,6 +3,7 @@ package ui;
 import java.io.IOException;
 
 import members.Customer;
+import members.Driver;
 import bookings.Request;
 
 public class MainMenu {
@@ -97,6 +98,8 @@ public class MainMenu {
 	private void printDriverMenu() {
 		try {
 			while (true) {
+				
+				DriverMenu driverMenu = new DriverMenu();
 				System.out.println();
 				System.out
 						.println("Vehicle and Driver Menu____________________________________");
@@ -115,10 +118,14 @@ public class MainMenu {
 					case 0:
 						break;
 					case 1:
+						Driver driver = driverMenu.registration();
+						System.out.println(driver.toString());
 						break;
 					case 2:
+						driverMenu.login();
 						break;
 					case 3:
+						driverMenu.subscribeBid();
 						break;
 					}
 					if (option == 0) {
