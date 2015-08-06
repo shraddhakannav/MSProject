@@ -1,6 +1,5 @@
 package members;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import bookings.Fare;
@@ -12,6 +11,7 @@ public class Driver extends Member {
 	ArrayList<String> shiftDays;
 	String shiftStartTime;
 	String shiftEndTime;
+	private boolean isObserver;
 
 	public String getLicenceNo() {
 		return licenceNo;
@@ -71,5 +71,13 @@ public class Driver extends Member {
 			System.out.println("The message is: " + message);
 		}
 
+	}
+
+	public boolean isObserver() {
+		return isObserver;
+	}
+
+	public void setObserver(boolean isObserver) {
+		this.isObserver = isObserver;
 	}
 }

@@ -1,8 +1,6 @@
 package ui;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import bookings.*;
@@ -69,7 +67,33 @@ public class CustomerMenu {
 	}
 
 	public void login() {
-		// TODO Auto-generated method stub
+		try {
+			System.out
+					.println("___________________________________________________________________");
+			System.out.println("Customer Login Details: ");
+
+			System.out.println("Please Enter your Username: ");
+			String username = reader.readLine();
+
+			// System.out.println("Please Enter your Password: ");
+			// String password = reader.readLine();
+			//
+			// if(username.equals(password)) {
+			//
+			// }
+
+			System.out.println(username);
+			// DataAccess da = new DataAccess();
+			// Customer cust = da.fetchUser(username);
+			// if (cust != null) {
+			// System.out.println("You are successfully logged into the system.");
+			// } else {
+			// System.out.println("You are not a registered user.");
+			// }
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

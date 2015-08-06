@@ -11,14 +11,18 @@ public abstract class Fare {
 	ArrayList<Driver> observers = new ArrayList<Driver>();
 	
 	public Fare() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void addObserver(Driver driver) {
-		observers.add(driver);
+		if(!observers.contains(driver)) {
+			driver.setObserver(true);
+			observers.add(driver);
+			
+		}
 	}
 	
 	public void removeObserver(Driver driver) {
+		driver.setObserver(false);
 		observers.remove(driver);
 	}
 	
