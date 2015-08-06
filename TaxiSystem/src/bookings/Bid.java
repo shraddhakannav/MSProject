@@ -1,19 +1,25 @@
 package bookings;
 
-public class Bid {
+public class Bid extends Fare {
 
-	private Request requestId;
-	public double getFare(){
+	private Request request;
+	private double fare;
 
-		return 0.0;
+	public Bid() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setFare(double fare){
-
-
+	public double getFare() {
+		return fare;
 	}
 
-	public void postBid(double bid){
+	public void setFare(double fare) {
+		this.fare = fare;
+		notifyObservers("Next bid for request: " + request.toString() + " is $"
+				+ fare);
+	}
 
+	public void postBid(double bid) {
+		System.out.println("I am ok with the bid"); //Driver, request
 	}
 }
