@@ -58,6 +58,10 @@ public class DriverMenu {
 
 			System.out.println("Do you want to Submit registration? [y:n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
+				
+				DataAccess da= new DataAccess();
+//				da.insertDriverDetails(driver);
+				
 				System.out.println("You are successfully registered.");
 
 				loggedDriver = driver;

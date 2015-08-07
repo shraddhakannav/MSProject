@@ -1,6 +1,5 @@
 package vehicles;
 
-
 public class Vehicle implements IVehicle {
 
 	IVehicleState state;
@@ -82,6 +81,19 @@ public class Vehicle implements IVehicle {
 
 	public void setDriverName(String driverName) {
 		this.driverName = driverName;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nVehicle " + vehicleId + "--------------------------");
+		sb.append("\nType: " + vehicleType);
+		sb.append("\nColor: " + vehicleColor);
+		sb.append("\nModel No: " + modelNo);
+		sb.append("\nLicense Plate: " + licensePlate);
+		sb.append("\nDriver Name: " + driverName);
+
+		return super.toString();
 	}
 
 }

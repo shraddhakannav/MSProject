@@ -40,6 +40,9 @@ public class CustomerMenu {
 			System.out.println("Phone No: ");
 			customer.setContactNo(reader.readLine());
 
+			System.out.println("Membership Plan [basic/premium]: ");
+			customer.setPlan(reader.readLine());
+
 			System.out.println("Credit Card Number: ");
 			customer.setCreditCardNo(reader.readLine());
 
@@ -52,6 +55,10 @@ public class CustomerMenu {
 
 			System.out.println("Do you want to Submit registration? [y:n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
+				
+				DataAccess da = new DataAccess();
+//				da.insertCustomer(customer);
+				
 				System.out.println("You are successfully registered.");
 				loggedCustomer = customer;
 				return customer;
@@ -78,13 +85,6 @@ public class CustomerMenu {
 
 			System.out.println("Please Enter your Username: ");
 			String username = reader.readLine();
-
-			// System.out.println("Please Enter your Password: ");
-			// String password = reader.readLine();
-			//
-			// if(username.equals(password)) {
-			//
-			// }
 
 			System.out.println(username);
 			DataAccess da = new DataAccess();

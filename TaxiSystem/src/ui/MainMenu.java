@@ -181,6 +181,7 @@ public class MainMenu {
 						Request request = customerMenu.requestACab();
 						Dispatcher dispatch = new Dispatcher();
 						dispatch.dispatchRequest(request);
+						
 						break;
 					case 4:
 						// customerMenu.makeAPayment();

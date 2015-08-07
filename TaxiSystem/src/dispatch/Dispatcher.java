@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import members.Driver;
+import bookings.DataAccess;
 import bookings.Request;
 
 public class Dispatcher  implements DispatcherInterface{
@@ -14,15 +16,25 @@ public class Dispatcher  implements DispatcherInterface{
 	{
 		try{
 			
+			// Request request=new Request();
+			// request.setPickX(0);
+			// request.setPickY(0);
+			// request.setDestX(0);
+			// request.setDestY(0);		
+			
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-		ArrayList confirmedDriver=new ArrayList(); 
+		DataAccess dataAccess=new DataAccess();
+		Driver confirmedDriver=new Driver(); 
 		String status="delay";
 		String command="-1";
 	
 		// ************   BRIDGE PATTERN *************//
 		Vehicle v1;
 		Algorithm algorithm;
+		ArrayList driver_list=dataAccess.retreiveDriverByStatus("available");
 		ArrayList pass_argument=new ArrayList();
+		pass_argument.add(request);
+		pass_argument.add(driver_list);
 		algorithm=new Algorithm1();
 		v1=new InstantCab(algorithm);
 		ArrayList result=v1.callAlgorithm(pass_argument);
@@ -32,11 +44,11 @@ public class Dispatcher  implements DispatcherInterface{
 		
 		for(int i=0;i<result.size();i++)
 		{
-			ArrayList temp=(ArrayList)result.get(i);
+			Driver temp=(Driver)result.get(i);
 			
 			System.out.println("");
 			System.out.println("");
-			System.out.println("Driver No "+temp.get(2)+" do you want to accept this Ride? [Y/N]");
+			System.out.println("Driver No "+ temp.getDistance()+" do you want to accept this Ride? [Y/N]");
 			
 			
 			
@@ -47,9 +59,12 @@ public class Dispatcher  implements DispatcherInterface{
 	        {
 	        	confirmedDriver=temp;
 	        	i=result.size();
-	        	System.out.println("");
+	        	System.out.println(temp.getName());
+	    		System.out.println(confirmedDriver.getName());
+	    		vehicles.Vehicle vehicle=dataAccess.retreiveVehicleByDriver(confirmedDriver.getName());
 	    		System.out.println("");
-	    		System.out.println("Dear Customer your ride is confirmed. Driver no "+temp.get(2)+" will come to pick you");
+	    		System.out.println("Dear Customer your ride is confirmed. These are the details : :");
+	    		System.out.println("Dear Customer your ride is confirmed. These are the details : :");
 	    		
 	        }
 	       

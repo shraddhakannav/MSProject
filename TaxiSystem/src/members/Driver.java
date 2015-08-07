@@ -12,6 +12,9 @@ public class Driver extends Member {
 	String shiftStartTime;
 	String shiftEndTime;
 	private boolean isObserver;
+	private int distance;
+	private int current_longitude;
+	private int current_latitude;
 
 	public String getLicenceNo() {
 		return licenceNo;
@@ -79,5 +82,29 @@ public class Driver extends Member {
 
 	public void setObserver(boolean isObserver) {
 		this.isObserver = isObserver;
+	}
+
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+
+	public int getCurrent_longitude() {
+		return current_longitude;
+	}
+
+	public void setCurrent_longitude(int current_longitude) {
+		this.current_longitude = current_longitude;
+	}
+
+	public int getCurrent_latitude() {
+		return current_latitude;
+	}
+
+	public void setCurrent_latitude(int current_latitude) {
+		this.current_latitude = current_latitude;
 	}
 }

@@ -7,6 +7,7 @@ public class Customer extends Member {
 	String creditCardNo;
 	int cvv;
 	String expirationDate;
+	private String plan;
 
 	
 	public String getCreditCardNo() {
@@ -37,5 +38,13 @@ public class Customer extends Member {
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+
+	public String getPlan() {
+		return plan;
+	}
+
+	public void setPlan(String plan) {
+		this.plan = plan;
 	}
 }
