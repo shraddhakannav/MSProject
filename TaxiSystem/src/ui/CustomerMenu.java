@@ -2,6 +2,9 @@ package ui;
 
 import java.io.BufferedReader;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import bookings.*;
 import members.*;
@@ -113,11 +116,33 @@ public class CustomerMenu {
 			System.out.println("Do you want to ride in Taxi or Instant Cab: ");
 			request.setRequestType(reader.readLine());
 
-			System.out.println("Pick Up Location: ");
-			request.setPickUpLocation(reader.readLine());
+			HashMap<String, Location> locations = LocationMapping
+					.getLocationObject().getLocations();
 
-			System.out.println("Destination: ");
-			request.setDestination(reader.readLine());
+			int count = 1;
+
+			for (String string : locations.keySet()) {
+				System.out.println(count++ + ". " + string);
+			}
+
+			System.out.println("Pick Up Location [pick from above list]: ");
+			int index = Integer.parseInt(reader.readLine());
+			String selected = (String) (locations.keySet().toArray()[index - 1]);
+
+			Location location = locations.get(selected);
+
+			request.setPickX(location.x);
+			request.setPickY(location.y);
+			request.setPickUpLocation(selected);
+
+			System.out.println("Destination [pick from above list]:  ");
+			index = Integer.parseInt(reader.readLine());
+			selected = (String) (locations.keySet().toArray()[index - 1]);
+			location = locations.get(selected);
+
+			request.setDestX(location.x);
+			request.setDestY(location.y);
+			request.setDestination(selected);
 
 			System.out.println("Booking Date[MM/dd/yyyy hh:mm]: ");
 
@@ -128,7 +153,7 @@ public class CustomerMenu {
 
 			request.setBookingDate(sqlDate);
 
-			System.out.println("Car Type: ");
+			System.out.println("Car Type [instant/luxury/taxi]: ");
 			request.setCarType(reader.readLine());
 
 			System.out.println("Do you want a Car Seat [y/n]: ");

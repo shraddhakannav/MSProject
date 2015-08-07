@@ -10,6 +10,10 @@ public class Request implements RequestInterface {
 
 	private String pickUpLocation;
 	private String destination;
+
+	private int pickX, pickY;
+	private int destX, destY;
+
 	private Date bookingDate;
 	private String CarType;
 	private int FareEstimation;
@@ -25,6 +29,38 @@ public class Request implements RequestInterface {
 	@Override
 	public void setPetFriendlyFlag(boolean petFriendlyFlag) {
 		this.petFriendlyFlag = petFriendlyFlag;
+	}
+
+	public int getPickX() {
+		return pickX;
+	}
+
+	public void setPickX(int pickX) {
+		this.pickX = pickX;
+	}
+
+	public int getPickY() {
+		return pickY;
+	}
+
+	public void setPickY(int pickY) {
+		this.pickY = pickY;
+	}
+
+	public int getDestX() {
+		return destX;
+	}
+
+	public void setDestX(int destX) {
+		this.destX = destX;
+	}
+
+	public int getDestY() {
+		return destY;
+	}
+
+	public void setDestY(int destY) {
+		this.destY = destY;
 	}
 
 	@Override
@@ -157,8 +193,10 @@ public class Request implements RequestInterface {
 		sb.append("Request:");
 		sb.append("\n___________________________________");
 		sb.append("\nType of request: " + requestType);
-		sb.append("\nPickup Location: " + pickUpLocation);
-		sb.append("\nDestination: " + destination);
+		sb.append("\nPickup Location: " + pickUpLocation + " [" + pickX + ","
+				+ pickY + "]");
+		sb.append("\nDestination: " + destination + " [" + destX + "," + destY
+				+ "]");
 		sb.append("\nBooking Date: " + bookingDate);
 		sb.append("\nCar Type: " + CarType);
 		sb.append("\nPet Friendly: " + petFriendlyFlag);
