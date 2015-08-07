@@ -6,8 +6,8 @@ public abstract class Rule {
 
 	public void makeARule() {
 		setProposedRule();
-		if (makeCorrections()) {
-			addCorrections();
+		if (needRevision()) {
+			reviseRule();
 		}
 		getApproval();
 		publishRule();
@@ -22,16 +22,16 @@ public abstract class Rule {
 
 	public void publishRule() {
 		System.out.println("The following rule has been published");
-		System.out.println("Rule Id: " + getRuleId());
-		System.out.println("Rule description: " + getRuleDescription());
+		//		System.out.println("Rule Id: " + getRuleId());
+		//		System.out.println("Rule description: " + getRuleDescription());
 	}
 
-	public boolean makeCorrections() {
+	public boolean needRevision() {
 
 		return true;
 	}
 
-	public abstract void addCorrections();
+	public abstract void reviseRule();
 
 	public int getRuleId() {
 		return RuleId;
@@ -48,5 +48,9 @@ public abstract class Rule {
 	public void setRuleDescription(String ruleDescription) {
 		this.ruleDescription = ruleDescription;
 	}
+
+	public abstract void updateRules();
+
+
 
 }

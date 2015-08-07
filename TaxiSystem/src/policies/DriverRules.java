@@ -32,7 +32,7 @@ public class DriverRules extends Rule {
 
 
 	@Override
-	public boolean makeCorrections(){
+	public boolean needRevision(){
 		String rule = null;
 		String answer = null;
 		System.out.println("Do you want to make corrections to the proposed driver rule?");
@@ -54,7 +54,7 @@ public class DriverRules extends Rule {
 	}
 
 	@Override
-	public void addCorrections(){
+	public void reviseRule(){
 		String rule = null;
 		System.out.println("Enter modified rule");
 		BufferedReader inputRule = new BufferedReader(new InputStreamReader(System.in));
@@ -68,6 +68,12 @@ public class DriverRules extends Rule {
 		catch(Exception e){
 			System.out.println("Error in recording rule");
 		}
+
+	}
+
+	@Override
+	public void updateRules() {
+		System.out.println(" Driver Rules have been updated");
 
 	}
 

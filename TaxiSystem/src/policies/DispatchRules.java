@@ -35,10 +35,10 @@ public class DispatchRules extends Rule{
 
 
 	@Override
-	public boolean makeCorrections(){
+	public boolean needRevision(){
 		String rule = null;
 		String answer = null;
-		System.out.println("Do you want to make corrections to the proposed dispatch rule?");
+		System.out.println("Do you want to revise the proposed dispatch rule?");
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		try{
 			answer = input.readLine();
@@ -57,21 +57,15 @@ public class DispatchRules extends Rule{
 	}
 
 	@Override
-	public void addCorrections(){
-		String rule = null;
-		System.out.println("Enter modified rule");
-		BufferedReader inputRule = new BufferedReader(new InputStreamReader(System.in));
-		try{
-			rule = inputRule.readLine();
-			if (rule!=null){
-				setRuleDescription(rule);
-				System.out.println("Rule has been modified");
-			}}
-
-		catch(Exception e){
-			System.out.println("Error in recording rule");
-		}
-
+	public void reviseRule(){
+		System.out.println("Payment rules have been revised");
 	}
 
+
+
+	@Override
+	public void updateRules() {
+		System.out.println(" Dispatch Rules have been updated");
+
+	}
 }
