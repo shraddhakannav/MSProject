@@ -57,7 +57,7 @@ public class CustomerMenu {
 			if (reader.readLine().equalsIgnoreCase("y")) {
 				
 				DataAccess da = new DataAccess();
-//				da.insertCustomer(customer);
+				da.insertCustomer(customer);
 				
 				System.out.println("You are successfully registered.");
 				loggedCustomer = customer;

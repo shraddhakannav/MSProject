@@ -60,7 +60,7 @@ public class DriverMenu {
 			if (reader.readLine().equalsIgnoreCase("y")) {
 				
 				DataAccess da= new DataAccess();
-//				da.insertDriverDetails(driver);
+				da.insertDriver(driver);
 				
 				System.out.println("You are successfully registered.");
 

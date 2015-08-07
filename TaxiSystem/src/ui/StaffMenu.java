@@ -16,12 +16,6 @@ public class StaffMenu {
 		reader = MainStart.getReader();
 	}
 
-	// System.out.println("1. Register for vehicle");
-	// System.out.println("2. Retrieve List of Vehicles");
-	// System.out.println("3. Search for Vehicle");
-	// System.out.println("4. Retrieve List of Customers");
-	// System.out.println("5. Search for Customer");
-
 	public Vehicle registerForVehicle() {
 
 		try {
@@ -54,7 +48,7 @@ public class StaffMenu {
 			if (reader.readLine().equalsIgnoreCase("y")) {
 
 				DataAccess da = new DataAccess();
-//				da.insertVehicle(vehicle);
+				da.insertVehicleDetails(vehicle);
 
 				System.out.println("Vehicle is successfully registered.");
 				return vehicle;
