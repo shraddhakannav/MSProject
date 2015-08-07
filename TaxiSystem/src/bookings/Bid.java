@@ -15,12 +15,20 @@ public class Bid extends Fare {
 
 	public void setFare(double fare) {
 		this.fare = fare;
+		if (getRequest() != null)
+			notifyObservers("Next bid for request: " + getRequest().toString()
+					+ " is $" + fare);
 	}
 
 	public void postBid(double bid) {
-		if (request != null)
-			notifyObservers("Next bid for request: " + request.toString()
-					+ " is $" + fare);
 		System.out.println("I am ok with the bid"); // Driver, request
+	}
+
+	public Request getRequest() {
+		return request;
+	}
+
+	public void setRequest(Request request) {
+		this.request = request;
 	}
 }
