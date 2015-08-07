@@ -2,6 +2,7 @@ package ui;
 
 import java.io.IOException;
 
+import dispatch.Dispatcher;
 import members.Customer;
 import members.Driver;
 import bookings.Request;
@@ -178,10 +179,8 @@ public class MainMenu {
 						break;
 					case 3:
 						Request request = customerMenu.requestACab();
-						if (request != null) {
-							System.out.println("The Request is:");
-							request.toString();
-						}
+						Dispatcher dispatch = new Dispatcher();
+						dispatch.dispatchRequest(request);
 						break;
 					case 4:
 						// customerMenu.makeAPayment();

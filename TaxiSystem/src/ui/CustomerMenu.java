@@ -129,19 +129,19 @@ public class CustomerMenu {
 			int index = Integer.parseInt(reader.readLine());
 			String selected = (String) (locations.keySet().toArray()[index - 1]);
 
-			Location location = locations.get(selected);
+			Location location1 = locations.get(selected);
 
-			request.setPickX(location.x);
-			request.setPickY(location.y);
+			request.setPickX(location1.x);
+			request.setPickY(location1.y);
 			request.setPickUpLocation(selected);
 
 			System.out.println("Destination [pick from above list]:  ");
 			index = Integer.parseInt(reader.readLine());
 			selected = (String) (locations.keySet().toArray()[index - 1]);
-			location = locations.get(selected);
+			Location location2 = locations.get(selected);
 
-			request.setDestX(location.x);
-			request.setDestY(location.y);
+			request.setDestX(location2.x);
+			request.setDestY(location2.y);
 			request.setDestination(selected);
 
 			System.out.println("Booking Date[MM/dd/yyyy hh:mm]: ");
@@ -176,9 +176,10 @@ public class CustomerMenu {
 				bid.setFare(Double.parseDouble(reader.readLine()));
 
 				request.setBid(bid);
-
 			}
 
+			calculateFare(request);
+			
 			System.out.println("Do you want to submit a request? [y/n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
 				System.out
@@ -201,5 +202,10 @@ public class CustomerMenu {
 		System.out.println("Your request is not complete. Please try again.");
 		return null;
 
+	}
+
+	private void calculateFare(Request request) {
+		// TODO Auto-generated method stub
+		
 	}
 }
