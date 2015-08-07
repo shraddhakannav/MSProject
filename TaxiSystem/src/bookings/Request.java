@@ -153,21 +153,18 @@ public class Request implements RequestInterface {
 	@Override
 	public String toString() {
 
-		// private int requestId;
-		// RequestState state;
-		// private String requestType;
-		//
-		// private String pickUpLocation;
-		// private String destination;
-		// private Date bookingDate;
-		// private String CarType;
-		// private int FareEstimation;
-		// private Bid bid;
-		// private boolean petFriendlyFlag;
-		// private boolean CarSeatFlag;
 		StringBuilder sb = new StringBuilder();
 		sb.append("Request:");
 		sb.append("\n___________________________________");
+		sb.append("\nType of request: " + requestType);
+		sb.append("\nPickup Location: " + pickUpLocation);
+		sb.append("\nDestination: " + destination);
+		sb.append("\nBooking Date: " + bookingDate);
+		sb.append("\nCar Type: " + CarType);
+		sb.append("\nPet Friendly: " + petFriendlyFlag);
+		sb.append("\nCar Seat: " + CarSeatFlag);
+		if (bid != null)
+			sb.append("\nBidding Fare: " + bid.getFare());
 
 		String string = sb.toString();
 

@@ -4,15 +4,16 @@ import java.sql.Date;
 
 public class Customer extends Member {
 
-	double creditCardNo;
+	String creditCardNo;
 	int cvv;
 	String expirationDate;
 
-	public double getCreditCardNo() {
+	
+	public String getCreditCardNo() {
 		return creditCardNo;
 	}
 
-	public void setCreditCardNo(double creditCardNo) {
+	public void setCreditCardNo(String creditCardNo) {
 		this.creditCardNo = creditCardNo;
 	}
 

@@ -53,6 +53,7 @@ public class MainMenu {
 	private void printStaffMenu() {
 		try {
 			while (true) {
+				StaffMenu staffMenu = new StaffMenu();
 				System.out.println();
 				System.out
 						.println("Staff Management Menu____________________________________");
@@ -73,15 +74,19 @@ public class MainMenu {
 					case 0:
 						break;
 					case 1:
-
+						staffMenu.registerForVehicle();
 						break;
 					case 2:
+						staffMenu.retrieveListOfVehicles();
 						break;
 					case 3:
+						staffMenu.searchForVehicle();
 						break;
 					case 4:
+						staffMenu.retrieveListOfCustomers();
 						break;
 					case 5:
+						staffMenu.searchForCustomer();
 						break;
 					}
 					if (option == 0) {
@@ -98,7 +103,7 @@ public class MainMenu {
 	private void printDriverMenu() {
 		try {
 			while (true) {
-				
+
 				DriverMenu driverMenu = new DriverMenu();
 				System.out.println();
 				System.out

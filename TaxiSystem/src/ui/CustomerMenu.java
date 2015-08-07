@@ -37,7 +37,7 @@ public class CustomerMenu {
 			customer.setContactNo(reader.readLine());
 
 			System.out.println("Credit Card Number: ");
-			customer.setCreditCardNo(Double.parseDouble(reader.readLine()));
+			customer.setCreditCardNo(reader.readLine());
 
 			System.out.println("CVV: ");
 			customer.setCvv(Integer.parseInt(reader.readLine()));
@@ -148,7 +148,7 @@ public class CustomerMenu {
 				Bid bid = new Bid();
 
 				System.out.println("Suggest Your Fare Amount of the ride: ");
-				bid.setFare(Integer.parseInt(reader.readLine()));
+				bid.setFare(Double.parseDouble(reader.readLine()));
 
 				request.setBid(bid);
 
@@ -158,6 +158,8 @@ public class CustomerMenu {
 			if (reader.readLine().equalsIgnoreCase("y")) {
 				System.out
 						.println("Your Request has been created. Please wait for connecting to drivers.");
+
+				System.out.println(request.toString());
 				return request;
 
 			} else {
