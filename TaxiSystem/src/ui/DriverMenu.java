@@ -9,7 +9,7 @@ public class DriverMenu {
 
 	private BufferedReader reader;
 
-	private Driver loggedDriver;
+	private static Driver loggedDriver;
 
 	public DriverMenu() {
 		reader = MainStart.getReader();

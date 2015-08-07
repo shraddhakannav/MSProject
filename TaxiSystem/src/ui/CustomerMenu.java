@@ -12,6 +12,7 @@ import members.*;
 public class CustomerMenu {
 
 	private BufferedReader reader;
+	private static Customer loggedCustomer;
 
 	public CustomerMenu() {
 		reader = MainStart.getReader();
@@ -52,7 +53,7 @@ public class CustomerMenu {
 			System.out.println("Do you want to Submit registration? [y:n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
 				System.out.println("You are successfully registered.");
-
+				loggedCustomer = customer;
 				return customer;
 
 			} else {
@@ -86,13 +87,15 @@ public class CustomerMenu {
 			// }
 
 			System.out.println(username);
-			// DataAccess da = new DataAccess();
-			// Customer cust = da.fetchUser(username);
-			// if (cust != null) {
-			// System.out.println("You are successfully logged into the system.");
-			// } else {
-			// System.out.println("You are not a registered user.");
-			// }
+			DataAccess da = new DataAccess();
+			Customer cust = da.retreiveCustomerByName(username);
+			if (cust != null) {
+				loggedCustomer = cust;
+				System.out
+						.println("You are successfully logged into the system.");
+			} else {
+				System.out.println("You are not a registered user.");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,7 +182,7 @@ public class CustomerMenu {
 			}
 
 			calculateFare(request);
-			
+
 			System.out.println("Do you want to submit a request? [y/n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
 				System.out
@@ -206,6 +209,17 @@ public class CustomerMenu {
 
 	private void calculateFare(Request request) {
 		// TODO Auto-generated method stub
+
+		int x1 = request.getPickX();
+		int x2 = request.getPickY();
+		int y1 = request.getDestX();
+		int y2 = request.getDestY();
+
+		double power = Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2);
+		double distance = Math.sqrt(power);
 		
+		
+		
+
 	}
 }

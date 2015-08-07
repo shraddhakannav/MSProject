@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 
 import members.Customer;
 import members.Driver;
@@ -227,6 +226,55 @@ public class DataAccess {
 					.prepareStatement(retreiveCustomerById);
 
 			preparedStatement.setInt(1, custId);
+
+			ResultSet rs = preparedStatement.executeQuery(retreiveCustomerById);
+			while (rs.next()) {
+				// Retrieve by column name
+				customer.setName(rs.getString("name"));
+
+				customer.setContactNo(rs.getString("contact_no"));
+				customer.setEmail(rs.getString("email"));
+				customer.setCreditCardNo(rs.getString("credit_card_number"));
+				customer.setExpirationDate((rs.getString("exp_date")));
+
+			}
+		} catch (Exception e) {
+			System.out
+					.println("Error in retreiving Customer information by ID");
+			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				dbConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		return customer;
+
+	}
+
+	public Customer retreiveCustomerByName(String customerName) {
+		String retreiveCustomerById = null;
+		Connection dbConnection = null;
+		Customer customer = new Customer();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			System.out.println("Error in connecting to the database");
+			e1.printStackTrace();
+		}
+
+		try {
+			dbConnection = DriverManager.getConnection(URL, USER, PASS);
+			retreiveCustomerById = "Select * from customer where name = ?";
+			preparedStatement = dbConnection
+					.prepareStatement(retreiveCustomerById);
+
+			preparedStatement.setString(1, customerName);
 
 			ResultSet rs = preparedStatement.executeQuery(retreiveCustomerById);
 			while (rs.next()) {
