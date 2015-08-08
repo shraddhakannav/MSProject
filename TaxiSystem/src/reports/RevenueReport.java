@@ -1,43 +1,33 @@
 package reports;
 
-
-
 import java.util.Vector;
-
-
 
 public abstract class RevenueReport extends Reports {
 
+	protected Vector<Reports> directReports = new Vector<Reports>();
 
+	public void showReport() {
 
-protected Vector<Reports> directReports = new Vector<Reports>();
+		super.showReport();
 
+		if (directReports.size() > 0) {
 
+			for (Reports report : directReports) {
 
-public void showReport() {
+				report.showReport();
 
-super.showReport();
+			}
 
-if (directReports.size() > 0) {
+		}
 
-for (Reports report : directReports) {
+	}
 
-report.showReport();
+	public void addReport(Reports report) {
 
-}
+		directReports.addElement(report);
 
-}
+		// System.out.println("Report has been added: " + report);
 
-}
-
-
-
-public void addReport(Reports report) {
-
-directReports.addElement(report);
-
-//	System.out.println("Report has been added: " + report);
-
-}
+	}
 
 }

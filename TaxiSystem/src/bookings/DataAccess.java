@@ -993,7 +993,7 @@ public class DataAccess {
 
 	dbConnection = DriverManager.getConnection(URL, USER, PASS);
 	insertPricingRules = "Update pricingrules " + "set normalrate=? , "
-	+ "peakrate=? " + "where cabtype=? and sub_type =?";
+	+ "peakrate=? " + "where cab_type=? and sub_type =?";
 	preparedStatement = dbConnection
 	.prepareStatement(insertPricingRules);
 	preparedStatement.setDouble(1, p.getNormalRate());
