@@ -51,7 +51,7 @@ public class Vehicle implements IVehicle {
 	}
 
 	public Vehicle() {
-		state = new OffilineVehicleState(this);
+		state = new OfflineVehicleState(this);
 		//System.out.println("In Vehicle Constructor");
 	}
 
@@ -93,7 +93,7 @@ public class Vehicle implements IVehicle {
 		sb.append("\nLicense Plate: " + licensePlate);
 		sb.append("\nDriver Name: " + driverName);
 
-		return super.toString();
+		return sb.toString();
 	}
 
 }

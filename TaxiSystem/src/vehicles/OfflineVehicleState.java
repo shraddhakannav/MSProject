@@ -1,10 +1,10 @@
 package vehicles;
 
-public class OffilineVehicleState implements IVehicleState {
+public class OfflineVehicleState implements IVehicleState {
 
 	IVehicle vehicle;
 
-	public OffilineVehicleState(IVehicle v) {
+	public OfflineVehicleState(IVehicle v) {
 		vehicle = v;
 	}
 

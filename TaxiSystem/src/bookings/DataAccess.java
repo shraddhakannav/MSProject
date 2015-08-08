@@ -10,25 +10,30 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import members.Customer;
 import members.Driver;
 import ui.Pricing;
+import vehicles.ForHireVehicleState;
+import vehicles.HiredVehicleState;
+import vehicles.IVehicleState;
+import vehicles.InMaintenanceVehicleState;
+import vehicles.OfflineVehicleState;
 import vehicles.Vehicle;
 import dispatch.RideClass;
 
 public class DataAccess {
 
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://localhost/taxi_cab_system";
+	private static final String URL = "jdbc:mysql://localhost:3307/taxi_cab_system";
 	private static final String USER = "root";
-	private static final String PASS = "password";
+	private static final String PASS = "root";
 
 	Statement stmt = null;
 	PreparedStatement preparedStatement = null;
 
-	public void insertRequest(Request request, Customer c)
-			throws SQLException {
+	public void insertRequest(Request request, Customer c) throws SQLException {
 
 		String insertRequest = null;
 		Connection dbConnection = null;
@@ -43,43 +48,37 @@ public class DataAccess {
 		try {
 
 			insertRequest = "Insert into request( customer_id,"
-					+ "request_type,"
-					+ "pickup_longitude, "
-					+ "pickup_latitude, "
-					+ "destination_longitude,"
-					+ " destination_latitude,"
-					+ "request_time, "
-			
-					+ " car_type, "
-					+ "is_car_seat,"
-					+ "is_pet_friendly, "
-					+ "bid_amount, "
-					+ "status , request_id) " + "values"
+					+ "request_type," + "pickup_longitude, "
+					+ "pickup_latitude, " + "destination_longitude,"
+					+ " destination_latitude," + "request_time, "
+
+					+ " car_type, " + "is_car_seat," + "is_pet_friendly, "
+					+ "bid_amount, " + "status , request_id) " + "values"
 					+ "(?,?,?,?,?," + "?,?,?,?,?," + "?,?,?)";
 
 			preparedStatement = dbConnection.prepareStatement(insertRequest);
 			preparedStatement.setInt(1, c.getId());
 			preparedStatement.setString(2, request.getRequestType());
-			 preparedStatement.setDouble(3,request.getPickY());
-			 preparedStatement.setDouble(4,request.getPickX());
-			 preparedStatement.setDouble(5,request.getDestY());
-			 preparedStatement.setDouble(6,request.getDestX());					
-			 preparedStatement.setString(7,(request.getBookingDate()).toString());			 		
-			 preparedStatement.setString(8,request.getCarType());
-			
-			 int myInt = (request.isPetFriendlyFlag()) ? 1 : 0;
-			 preparedStatement.setInt(9,myInt);
-			 myInt = (request.isCarSeatFlag())? 1 : 0;
-			 preparedStatement.setInt(10,myInt);
-			 if(request.getBid()!=null){
-			 preparedStatement.setDouble(11, request.getBid().getFare());
-			 }
-			 else{
-				 preparedStatement.setDouble(11, 0); 
-			 }
-			 preparedStatement.setString(12,request.getState().toString());
-			 preparedStatement.setLong(13,request.getRequestId());
-				
+			preparedStatement.setDouble(3, request.getPickY());
+			preparedStatement.setDouble(4, request.getPickX());
+			preparedStatement.setDouble(5, request.getDestY());
+			preparedStatement.setDouble(6, request.getDestX());
+			preparedStatement.setString(7,
+					(request.getBookingDate()).toString());
+			preparedStatement.setString(8, request.getCarType());
+
+			int myInt = (request.isPetFriendlyFlag()) ? 1 : 0;
+			preparedStatement.setInt(9, myInt);
+			myInt = (request.isCarSeatFlag()) ? 1 : 0;
+			preparedStatement.setInt(10, myInt);
+			if (request.getBid() != null) {
+				preparedStatement.setDouble(11, request.getBid().getFare());
+			} else {
+				preparedStatement.setDouble(11, 0);
+			}
+			preparedStatement.setString(12, request.getState().toString());
+			preparedStatement.setLong(13, request.getRequestId());
+
 			preparedStatement.executeUpdate();
 
 		} catch (Exception e) {
@@ -150,14 +149,36 @@ public class DataAccess {
 
 			preparedStatement.setInt(1, vId);
 
-			ResultSet rs = preparedStatement.executeQuery(retreivebyvehicleId);
+			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				// Retrieve by column name
-
-				vehicle.setModelNo(rs.getString("model_no"));
-				vehicle.setVehicleColor(rs.getString("vehicle_color"));
-				vehicle.setVehicleId(rs.getInt("vehicle_id"));
 				vehicle.setVehicleType(rs.getString("vehicle_type"));
+				vehicle.setVehicleColor(rs.getString("vehicle_color"));
+				vehicle.setModelNo(rs.getString("model_no"));
+				vehicle.setLicensePlate(rs.getString("license_plate"));
+				vehicle.setDriverName(rs.getString("driver_name"));
+				
+				vehicle.setVehicleId(rs.getInt("vehicle_id"));
+				IVehicleState state = null;
+				switch (rs.getString("status").toLowerCase()) {
+				case "offline":
+					state = new OfflineVehicleState(vehicle);
+					break;
+				case "hired":
+					state = new HiredVehicleState(vehicle);
+					break;
+				case "for_hire":
+					state = new ForHireVehicleState(vehicle);
+					break;
+				case "maintenance":
+					state = new InMaintenanceVehicleState(vehicle);
+					break;
+
+				default:
+					state = new OfflineVehicleState(vehicle);
+					break;
+				}
+				vehicle.setState(state);
 
 			}
 		} catch (Exception e) {
@@ -199,12 +220,12 @@ public class DataAccess {
 
 			preparedStatement.setInt(1, custId);
 
-			ResultSet rs = preparedStatement.executeQuery(retreiveCustomerById);
+			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				// Retrieve by column name
 				customer.setId(rs.getInt("customer_id"));
 				customer.setName(rs.getString("name"));
-				customer.setPlan(rs.getString("membership_plan"));
+				customer.setPlan(rs.getString("membership"));
 				customer.setContactNo(rs.getString("contact_no"));
 				customer.setEmail(rs.getString("email"));
 				customer.setCreditCardNo(rs.getString("credit_card_number"));
@@ -301,7 +322,7 @@ public class DataAccess {
 					+ "exp_date=?"
 
 					// where
-					+ "where cust_id=? ";
+					+ "where customer_id=? ";
 
 			preparedStatement = dbConnection
 					.prepareStatement(updateCustomerDetails);
@@ -356,7 +377,7 @@ public class DataAccess {
 
 			preparedStatement.setInt(1, c.getId());
 
-			preparedStatement.executeQuery();
+			preparedStatement.executeUpdate();
 
 		}
 
@@ -443,7 +464,10 @@ public class DataAccess {
 				// Retrieve by column name
 				customer.setId(rs.getInt("customer_id"));
 				customer.setName(rs.getString("name"));
-				customer.setPlan(rs.getString("membership_plan"));
+
+				// Shraddha chnaged column name to memebrship from
+				// membership_plan
+				customer.setPlan(rs.getString("membership"));
 				customer.setContactNo(rs.getString("contact_no"));
 				customer.setEmail(rs.getString("email"));
 				customer.setCreditCardNo(rs.getString("credit_card_number"));
@@ -560,9 +584,6 @@ public class DataAccess {
 		return driverList;
 	}
 
-	
-	
-
 	public ArrayList<Driver> retreiveallDrivers() {
 
 		String retreiveallDrivers = null;
@@ -588,8 +609,9 @@ public class DataAccess {
 				// Retrieve by column name
 				driver.setId(rs.getInt("driver_id"));
 				driver.setName(rs.getString("name"));
-				driver.setContactNo(rs.getString("contact_no"));
-				driver.setEmail(rs.getString("email"));
+				// Shraddha Changed for SQL EXCEPTION CONTACT NO NOT PRESSENT
+				// driver.setContactNo(rs.getString("contact_no"));
+				// driver.setEmail(rs.getString("email"));
 				driver.setLicenceNo(rs.getString("driver_license"));
 				driver.setRegistrationDate((rs.getString("reg_date")));
 				driver.setShiftStartTime((rs.getString("shift_start_time")));
@@ -612,7 +634,6 @@ public class DataAccess {
 		return driverList;
 	}
 
-	
 	public void deleteVehicle(Vehicle v) {
 
 		String deleteVehicle = null;
@@ -621,7 +642,8 @@ public class DataAccess {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block3
+			
 			System.out.println("Error in connecting to the database");
 			e1.printStackTrace();
 		}
@@ -634,7 +656,7 @@ public class DataAccess {
 
 			preparedStatement.setInt(1, v.getVehicleId());
 
-			preparedStatement.executeQuery();
+			preparedStatement.executeUpdate();
 
 		}
 
@@ -717,7 +739,7 @@ public class DataAccess {
 
 		try {
 			dbConnection = DriverManager.getConnection(URL, USER, PASS);
-			insertVehicleDetails = "insert into vehicle (vehicle_color,vehicle_type,model_no,license_plate,driver_name) values(?,?,?,?,?)";
+			insertVehicleDetails = "insert into vehicle (vehicle_color,vehicle_type,model_no,license_plate,driver_name,status) values(?,?,?,?,?,?)";
 
 			preparedStatement = dbConnection
 					.prepareStatement(insertVehicleDetails);
@@ -728,8 +750,19 @@ public class DataAccess {
 			preparedStatement.setString(3, v.getModelNo());
 			preparedStatement.setString(4, v.getLicensePlate());
 			preparedStatement.setString(5, v.getDriverName());
+			String string = "offline";
+			IVehicleState state = v.getState();
+			if (state instanceof OfflineVehicleState)
+				string = "offline";
+			if (state instanceof ForHireVehicleState)
+				string = "for_hire";
+			if (state instanceof HiredVehicleState)
+				string = "hired";
+			if (state instanceof InMaintenanceVehicleState)
+				string = "maintenance";
+			preparedStatement.setString(6, string);
 
-		Boolean b = preparedStatement.execute();
+			Boolean b = preparedStatement.execute();
 
 		}
 
@@ -777,9 +810,8 @@ public class DataAccess {
 			preparedStatement.setString(5, c.getCreditCardNo());
 			preparedStatement.setString(6, c.getExpirationDate());
 			preparedStatement.setInt(7, c.getCvv());
-			 i = preparedStatement.executeUpdate();
-			
-			
+			i = preparedStatement.executeUpdate();
+
 		} catch (Exception e) {
 			System.out.println("Error in Inserting customer information");
 			e.printStackTrace();
@@ -794,63 +826,63 @@ public class DataAccess {
 			}
 
 		}
-return i;
+		return i;
 	}
 
-		
 	public void insertDriver(Driver c) {
 
-//		String insertDriver = null;
-//		Connection dbConnection = null;
-//
-//		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//		} catch (ClassNotFoundException e1) {
-//			// TODO Auto-generated catch block
-//			System.out.println("Error in connecting to the database");
-//			e1.printStackTrace();
-//		}
-//
-//		try {
-//
-//			dbConnection = DriverManager.getConnection(URL, USER, PASS);
-//			
-//			insertDriver="INSERT INTO driver"
-//					+ "(driver_license ,reg_date ,shift_start_time , has_carseat , is_petfriendly ,"
-//					+ "is_available , driver_rating ,"
-//					+ " current_latitude , current_longitude ,is_observer ,status ,name ,shift_end_time,name)"
-//					+ "values"
-//					+ "(?,?,?,?,?,"
-//					+ "?,?,?,?,?,"
-//					+ "?,?,?,?)" ;
-//			
-//			preparedStatement = dbConnection.prepareStatement(insertDriver);
-//			preparedStatement.setString(1, c.getName());
-//			preparedStatement.setString(2, c.getContactNo());
-//			preparedStatement.setString(3, c.getEmail());
-//			preparedStatement.setString(4, c.getShiftStartTime());
-//			preparedStatement.setString(5, c.getShiftEndTime());
-//			preparedStatement.setString(6, c.getRegistrationDate());
-//			preparedStatement.setString(7, c.getShiftDays());
-//			int i = preparedStatement.executeUpdate();
-//		} catch (Exception e) {
-//			System.out.println("Error in Inserting customer information");
-//			e.printStackTrace();
-//		}
-//
-//		finally {
-//			try {
-//				preparedStatement.close();
-//				dbConnection.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
+		// String insertDriver = null;
+		// Connection dbConnection = null;
+		//
+		// try {
+		// Class.forName("com.mysql.jdbc.Driver");
+		// } catch (ClassNotFoundException e1) {
+		// // TODO Auto-generated catch block
+		// System.out.println("Error in connecting to the database");
+		// e1.printStackTrace();
+		// }
+		//
+		// try {
+		//
+		// dbConnection = DriverManager.getConnection(URL, USER, PASS);
+		//
+		// insertDriver="INSERT INTO driver"
+		// +
+		// "(driver_license ,reg_date ,shift_start_time , has_carseat , is_petfriendly ,"
+		// + "is_available , driver_rating ,"
+		// +
+		// " current_latitude , current_longitude ,is_observer ,status ,name ,shift_end_time,name)"
+		// + "values"
+		// + "(?,?,?,?,?,"
+		// + "?,?,?,?,?,"
+		// + "?,?,?,?)" ;
+		//
+		// preparedStatement = dbConnection.prepareStatement(insertDriver);
+		// preparedStatement.setString(1, c.getName());
+		// preparedStatement.setString(2, c.getContactNo());
+		// preparedStatement.setString(3, c.getEmail());
+		// preparedStatement.setString(4, c.getShiftStartTime());
+		// preparedStatement.setString(5, c.getShiftEndTime());
+		// preparedStatement.setString(6, c.getRegistrationDate());
+		// preparedStatement.setString(7, c.getShiftDays());
+		// int i = preparedStatement.executeUpdate();
+		// } catch (Exception e) {
+		// System.out.println("Error in Inserting customer information");
+		// e.printStackTrace();
+		// }
+		//
+		// finally {
+		// try {
+		// preparedStatement.close();
+		// dbConnection.close();
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// }
+		//
+		// }
 
 	}
-	
-	
+
 	public void insertPricingRules(Pricing p) {
 		String insertPricingRules = null;
 		Connection dbConnection = null;
@@ -893,7 +925,7 @@ return i;
 		}
 	}
 
-	public Pricing retreivePricing(String cartype , String subtype) {
+	public Pricing retreivePricing(String cartype, String subtype) {
 
 		String retreivePricing = null;
 		Pricing pricing = null;
@@ -984,171 +1016,276 @@ return i;
 		}
 
 	}
-	
-	public ArrayList<Driver> retreiveDriverByStatus(String status){
+
+	public ArrayList<Driver> retreiveDriverByStatus(String status) {
 
 		ArrayList<Driver> driverList = new ArrayList<Driver>();
 		String retreiveDriverByStatus = null;
 		Connection dbConnection = null;
 
 		try {
-		Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e1) {
-		// TODO Auto-generated catch block
-		System.out.println("Error in connecting to the database");
-		e1.printStackTrace();
+			// TODO Auto-generated catch block
+			System.out.println("Error in connecting to the database");
+			e1.printStackTrace();
 		}
 
 		try {
-		dbConnection = DriverManager.getConnection(URL, USER, PASS);
-		retreiveDriverByStatus = "Select * from driver where status = ?";
+			dbConnection = DriverManager.getConnection(URL, USER, PASS);
+			retreiveDriverByStatus = "Select * from driver where status = ?";
 
+			preparedStatement = dbConnection
+					.prepareStatement(retreiveDriverByStatus);
+			// set where condition
+			preparedStatement.setString(1, status);
 
-		preparedStatement = dbConnection
-		.prepareStatement(retreiveDriverByStatus);
-		// set where condition
-		preparedStatement.setString(1,status);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Driver driver = new Driver();
+				driver.setName(rs.getString("name"));
+				driver.setId(Integer.parseInt(rs.getString("driver_id")));
+				driver.setCurrent_latitude(Integer.parseInt(rs
+						.getString("current_latitude")));
+				driver.setCurrent_longitude(Integer.parseInt(rs
+						.getString("current_longitude")));
+				driverList.add(driver);
 
-
-
-		ResultSet rs = preparedStatement.executeQuery();
-		while(rs.next()){
-		Driver driver = new Driver();
-		driver.setName(rs.getString("name"));
-		driver.setId(Integer.parseInt(rs.getString("driver_id")));
-		driver.setCurrent_latitude(Integer.parseInt(rs.getString("current_latitude")));
-		driver.setCurrent_longitude(Integer.parseInt(rs.getString("current_longitude")));
-		driverList.add(driver);
+			}
 
 		}
 
-		}
-
-		catch(Exception e)
-		{
-		System.out.println("Error in updating customer information by ID");
-		e.printStackTrace();
-		}
-		finally{
-		try {
-		preparedStatement.close();
-		dbConnection.close();
-		} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-
+		catch (Exception e) {
+			System.out.println("Error in updating customer information by ID");
+			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				dbConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 		return driverList;
 
-		}
-		public Vehicle retreiveVehicleByDriver(String DriverName) {
+	}
 
+	public Vehicle retreiveVehicleByDriver(String DriverName) {
 
 		String retreiveVehicleByDriver = null;
 		Connection dbConnection = null;
 		Vehicle vehicle = new Vehicle();
 		try {
-		Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e1) {
-		// TODO Auto-generated catch block
-		System.out.println("Error in connecting to the database");
-		e1.printStackTrace();
+			// TODO Auto-generated catch block
+			System.out.println("Error in connecting to the database");
+			e1.printStackTrace();
 		}
 
 		try {
-		dbConnection = DriverManager.getConnection(URL, USER, PASS);
-		retreiveVehicleByDriver = "Select * from vehicle where driver_name = ?";
-		preparedStatement = dbConnection
-		.prepareStatement(retreiveVehicleByDriver);
-		preparedStatement.setString(1,DriverName);
+			dbConnection = DriverManager.getConnection(URL, USER, PASS);
+			retreiveVehicleByDriver = "Select * from vehicle where driver_name = ?";
+			preparedStatement = dbConnection
+					.prepareStatement(retreiveVehicleByDriver);
+			preparedStatement.setString(1, DriverName);
 
-		ResultSet rs = preparedStatement.executeQuery();
-		while (rs.next()) {
-		// Retrieve by column name
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				// Retrieve by column name
 
-
-		vehicle.setModelNo(rs.getString("model_no"));
-		vehicle.setLicensePlate(rs.getString("license_plate"));
-		vehicle.setVehicleColor(rs.getString("vehicle_color"));
-		vehicle.setVehicleId(rs.getInt("vehicle_id"));
-		vehicle.setVehicleType(rs.getString("vehicle_type"));
-		vehicle.setDriverName(rs.getString("driver_name"));
-		}
-		}
-		catch(Exception e)
-		{
-		System.out.println("Error in retreiving vehicle information by ID");
-		e.printStackTrace();
-		}
-		finally{
-		try {
-		preparedStatement.close();
-		dbConnection.close();
-		} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-
+				vehicle.setModelNo(rs.getString("model_no"));
+				vehicle.setLicensePlate(rs.getString("license_plate"));
+				vehicle.setVehicleColor(rs.getString("vehicle_color"));
+				vehicle.setVehicleId(rs.getInt("vehicle_id"));
+				vehicle.setVehicleType(rs.getString("vehicle_type"));
+				vehicle.setDriverName(rs.getString("driver_name"));
+			}
+		} catch (Exception e) {
+			System.out.println("Error in retreiving vehicle information by ID");
+			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				dbConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 
 		return vehicle;
 
+	}
 
+	public ArrayList<Vehicle> retreiveAllVehicles() {
+
+		String retreiveVehicleByDriver = null;
+		Connection dbConnection = null;
+		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in connecting to the database");
+			e1.printStackTrace();
 		}
-		
-		public void insertRideDetails(RideClass ride){
-			String insertRideDetails = null;
-			Connection dbConnection = null;
 
+		try {
+			dbConnection = DriverManager.getConnection(URL, USER, PASS);
+			retreiveVehicleByDriver = "Select * from vehicle";
+			preparedStatement = dbConnection
+					.prepareStatement(retreiveVehicleByDriver);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				// Retrieve by column name
+				Vehicle vehicle = new Vehicle();
+
+				vehicle.setVehicleType(rs.getString("vehicle_type"));
+				vehicle.setVehicleColor(rs.getString("vehicle_color"));
+				vehicle.setModelNo(rs.getString("model_no"));
+				vehicle.setLicensePlate(rs.getString("license_plate"));
+				vehicle.setDriverName(rs.getString("driver_name"));
+				
+				vehicle.setVehicleId(rs.getInt("vehicle_id"));
+				IVehicleState state = null;
+				switch (rs.getString("status").toLowerCase()) {
+				case "offline":
+					state = new OfflineVehicleState(vehicle);
+					break;
+				case "hired":
+					state = new HiredVehicleState(vehicle);
+					break;
+				case "for_hire":
+					state = new ForHireVehicleState(vehicle);
+					break;
+				case "maintenance":
+					state = new InMaintenanceVehicleState(vehicle);
+					break;
+
+				default:
+					state = new OfflineVehicleState(vehicle);
+					break;
+				}
+				vehicle.setState(state);
+				vehicles.add(vehicle);
+			}
+		} catch (Exception e) {
+			System.out.println("Error in retreiving vehicle information by ID");
+			e.printStackTrace();
+		} finally {
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-			} catch (ClassNotFoundException e1) {
+				preparedStatement.close();
+				dbConnection.close();
+			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Error in connecting to the database");
-				e1.printStackTrace();
-			}
-
-			try {
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.ms");
-				Date date = new Date();
-
-				dbConnection = DriverManager.getConnection(URL, USER, PASS);
-				insertRideDetails = "insert into ride(request_id,driver_id,fare,payment_type,status,customer_rating,driver_rating) "
-						+ "values(?,?,?,?,?,?,?)";
-				// order of cols in the table - username , email , creditcard ,
-				// billing address , plan , phone number , password and country
-				preparedStatement = dbConnection.prepareStatement(insertRideDetails);
-				preparedStatement.setLong(1,ride.getRequest_id() );
-				preparedStatement.setInt(2, ride.getDriver_id());
-				//preparedStatement.setDate(3, new java.sql.Date(new java.util.Date().getTime()));
-				//preparedStatement.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
-				preparedStatement.setFloat(3, (float)ride.getFare());
-				preparedStatement.setString(4, ride.getPayment_type());
-				preparedStatement.setString(5, ride.getStatus());
-				preparedStatement.setInt(6, ride.getUser_rating());
-				preparedStatement.setInt(7, ride.getDriver_rating());
-
-				int i = preparedStatement.executeUpdate();
-			}
-			catch(Exception e)
-			{
-				System.out.println("Error in deleting Driver information by ID");
 				e.printStackTrace();
 			}
 
-			finally{
-				try {
-					preparedStatement.close();
-					dbConnection.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
 		}
-	
+
+		return vehicles;
+
+	}
+
+	public void insertRideDetails(RideClass ride) {
+		String insertRideDetails = null;
+		Connection dbConnection = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in connecting to the database");
+			e1.printStackTrace();
+		}
+
+		try {
+			DateFormat dateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss.ms");
+			Date date = new Date();
+
+			dbConnection = DriverManager.getConnection(URL, USER, PASS);
+			insertRideDetails = "insert into ride(request_id,driver_id,fare,payment_type,status,customer_rating,driver_rating) "
+					+ "values(?,?,?,?,?,?,?)";
+			// order of cols in the table - username , email , creditcard ,
+			// billing address , plan , phone number , password and country
+			preparedStatement = dbConnection
+					.prepareStatement(insertRideDetails);
+			preparedStatement.setLong(1, ride.getRequest_id());
+			preparedStatement.setInt(2, ride.getDriver_id());
+			// preparedStatement.setDate(3, new java.sql.Date(new
+			// java.util.Date().getTime()));
+			// preparedStatement.setDate(4, new java.sql.Date(new
+			// java.util.Date().getTime()));
+			preparedStatement.setFloat(3, (float) ride.getFare());
+			preparedStatement.setString(4, ride.getPayment_type());
+			preparedStatement.setString(5, ride.getStatus());
+			preparedStatement.setInt(6, ride.getUser_rating());
+			preparedStatement.setInt(7, ride.getDriver_rating());
+
+			int i = preparedStatement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("Error in deleting Driver information by ID");
+			e.printStackTrace();
+		}
+
+		finally {
+			try {
+				preparedStatement.close();
+				dbConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	public List<String> getNotAssignedDriverNames() {
+
+		String retrieveDrivers = null;
+		List<String> drivers = new ArrayList<String>();
+
+		Connection dbConnection = null;
+		Vehicle vehicle = new Vehicle();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in connecting to the database");
+			e1.printStackTrace();
+		}
+
+		try {
+			dbConnection = DriverManager.getConnection(URL, USER, PASS);
+			retrieveDrivers = "SELECT driver.name from driver where driver.name not in (select driver_name from vehicle);";
+			preparedStatement = dbConnection.prepareStatement(retrieveDrivers);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				drivers.add(rs.getString(1));
+			}
+		} catch (Exception e) {
+			System.out.println("Error in retreiving vehicle information by ID");
+			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				dbConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		return drivers;
+
+	}
+
 }

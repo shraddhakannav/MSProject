@@ -5,6 +5,7 @@ import java.util.List;
 
 import members.Customer;
 import members.Driver;
+import vehicles.OfflineVehicleState;
 import vehicles.Vehicle;
 import bookings.DataAccess;
 
@@ -41,13 +42,17 @@ public class StaffMenu {
 			System.out.println("License Plate No: ");
 			vehicle.setLicensePlate(reader.readLine());
 
-			System.out.println("Enter Driver Name: ");
+			DataAccess da = new DataAccess();
+			List<String> list = da.getNotAssignedDriverNames();
+			System.out.println("Enter Driver Name " + list.toString() + ": ");
 			vehicle.setDriverName(reader.readLine());
+
+			// Shraddha Added this
+			vehicle.setState(new OfflineVehicleState(vehicle));
 
 			System.out.println("Do you want to Submit registration? [y:n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
 
-				DataAccess da = new DataAccess();
 				da.insertVehicleDetails(vehicle);
 
 				System.out.println("Vehicle is successfully registered.");
@@ -76,11 +81,11 @@ public class StaffMenu {
 					.println("_______________________________________________________________");
 
 			DataAccess da = new DataAccess();
-			List<Driver> vehicleList = null;
-			vehicleList = da.retreiveDriverByStatus("available");
+			List<Vehicle> vehicleList = null;
+			vehicleList = da.retreiveAllVehicles();
 
 			if (vehicleList != null) {
-				for (Driver vehicle : vehicleList) {
+				for (Vehicle vehicle : vehicleList) {
 					System.out.println();
 					System.out.println(vehicle.toString());
 				}
@@ -107,6 +112,8 @@ public class StaffMenu {
 			}
 			System.out.println();
 
+			updateDeleteVehicleMenu(vehicle);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,7 +133,8 @@ public class StaffMenu {
 			customerList = da.retreiveallCustomers();
 			if (customerList != null) {
 				for (Customer customer : customerList) {
-					customer.toString();
+					System.out.println();
+					System.out.println(customer.toString());
 				}
 			}
 			System.out.println();
@@ -147,7 +155,8 @@ public class StaffMenu {
 			Customer customer = null;
 			customer = da.retreiveCustomerById(customerId);
 			if (customer != null) {
-				customer.toString();
+				System.out.println();
+				System.out.println(customer.toString());
 			}
 			System.out.println();
 

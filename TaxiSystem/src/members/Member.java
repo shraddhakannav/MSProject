@@ -64,8 +64,9 @@ public abstract class Member {
 	// }
 
 	public String toString() {
-		String string = this.getName() + "(email: " + this.getEmail()
-				+ ", Contact No: " + this.getContactNo() + ") ";
+		String string = this.id + ": " + this.getName() + "(email: "
+				+ this.getEmail() + ", Contact No: " + this.getContactNo()
+				+ ") ";
 		return string;
 	}
 

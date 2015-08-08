@@ -10,7 +10,7 @@ public class InMaintenanceVehicleState implements IVehicleState {
 
 	@Override
 	public String becomeAvailable() {
-		vehicle.setState(new OffilineVehicleState(vehicle));
+		vehicle.setState(new OfflineVehicleState(vehicle));
 		return "Vehicle is available after maintenance.";
 	}
 

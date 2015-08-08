@@ -59,11 +59,11 @@ public class Driver extends Member {
 	@Override
 	public String toString() {
 
-		String driverStr = "\nRegistartion Date: " + this.getRegistrationDate()
-				+ " [" + this.getShiftStartTime() + " to "
-				+ this.getShiftEndTime() + " on " + this.getShiftDays() + "]";
-
-		return super.toString() + " " + driverStr;
+		String string = this.getName();
+		
+		String driverStr = "Registartion Date: " + this.getRegistrationDate();
+				
+		return string + ": " + driverStr;
 	}
 
 	// Observer Pattern for bidding
