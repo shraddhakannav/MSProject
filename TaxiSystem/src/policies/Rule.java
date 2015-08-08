@@ -1,20 +1,25 @@
 package policies;
 
+import ui.Pricing;
+import bookings.DataAccess;
+
+// Priya's version
 public abstract class Rule {
 	private int RuleId;
 	private String ruleDescription;
 
 	public void makeARule() {
-		setProposedRule();
+setProposedRule();
 		if (needRevision()) {
 			reviseRule();
 		}
+		
 		getApproval();
 		publishRule();
 
 	}
 
-	public abstract void setProposedRule();
+	public abstract  void reviseRule();
 
 	public void getApproval() {
 		System.out.println("Rule has been approved");
@@ -31,7 +36,7 @@ public abstract class Rule {
 		return true;
 	}
 
-	public abstract void reviseRule();
+	public abstract void setProposedRule();
 
 	public int getRuleId() {
 		return RuleId;
