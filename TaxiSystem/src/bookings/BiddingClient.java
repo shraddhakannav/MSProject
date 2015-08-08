@@ -17,7 +17,7 @@ public class BiddingClient {
 			bid.setRequest(request);
 
 			DataAccess da = new DataAccess();
-			List<Driver> list = da.retreiveDriverByStatus("available");
+			List<Driver> list = da.retreiveDriverByStatus("for_hire");
 			for (Driver driver : list) {
 				if (driver.isObserver()) {
 					bid.addObserver(driver);
@@ -27,19 +27,16 @@ public class BiddingClient {
 
 			System.out.println();
 			System.out.println("Current bidding fare is " + bid.getFare());
-			System.out.println("Do you want to raise a bid? [y:n]: ");
-			if (MainStart.getReader().readLine().equalsIgnoreCase("y")) {
-				System.out.println("State your current bid: $");
-				String biddingamount;
-				biddingamount = MainStart.getReader().readLine();
-				double amount = Double.parseDouble(biddingamount);
-			}
+			// System.out.println("Do you want to raise a bid? [y:n]: ");
+			// if (MainStart.getReader().readLine().equalsIgnoreCase("y")) {
+			// System.out.println("State your current bid: $");
+			// String biddingamount;
+			// biddingamount = MainStart.getReader().readLine();
+			// double amount = Double.parseDouble(biddingamount);
+			// }
 			bid.setFare(bid.getFare());
-
+			// System.out.println(driverList);s
 			return driverList;
-
-			
-
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			// e.printStackTrace();

@@ -58,10 +58,10 @@ public class DriverMenu {
 
 			System.out.println("Do you want to Submit registration? [y:n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
-				
-				DataAccess da= new DataAccess();
+
+				DataAccess da = new DataAccess();
 				da.insertDriver(driver);
-				
+
 				System.out.println("You are successfully registered.");
 
 				loggedDriver = driver;
@@ -91,22 +91,16 @@ public class DriverMenu {
 			System.out.println("Please Enter your Username: ");
 			String username = reader.readLine();
 
-			// System.out.println("Please Enter your Password: ");
-			// String password = reader.readLine();
-			//
-			// if(username.equals(password)) {
-			//
-			// }
-
 			System.out.println(username);
-			// DataAccess da = new DataAccess();
-			// Driver driver = da.fetchdriver(username);
-			// if (driver != null) {
-			// loggedDriver = driver;
-			// System.out.println("You are successfully logged into the system.");
-			// } else {
-			// System.out.println("You are not a registered driver.");
-			// }
+			DataAccess da = new DataAccess();
+			Driver driver = da.retreiveDriverByName(username);
+			if (driver != null) {
+				loggedDriver = driver;
+				System.out
+						.println("You are successfully logged into the system.");
+			} else {
+				System.out.println("You are not a registered driver.");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,26 +108,28 @@ public class DriverMenu {
 
 	}
 
-	public Request subscribeBid() {
+	public void subscribeBid() {
 
 		try {
+			if (loggedDriver != null) {
+				Bid bid = new Bid();
+				loggedDriver.setObserver(true);
 
-			Bid bid = new Bid();
-			loggedDriver.setObserver(true);
+				bid.addObserver(loggedDriver);
+				System.out
+						.println("Dear Driver: "
+								+ loggedDriver.getName()
+								+ ", you are successfully subscribed to the bidding fares.");
+				return;
+			} else {
+				System.out.println("You are not logged in. Please try login.");
 
-			bid.addObserver(loggedDriver);
-			System.out
-					.println("Dear Driver: "
-							+ loggedDriver.getName()
-							+ ", you are successfully subscribed to the bidding fares.");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		System.out.println("Your request is not complete. Please try again.");
-		return null;
-
 	}
 
 	public Driver getLoggedDriver() {

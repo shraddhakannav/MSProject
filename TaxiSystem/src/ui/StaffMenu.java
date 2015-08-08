@@ -3,6 +3,8 @@ package ui;
 import java.io.BufferedReader;
 import java.util.List;
 
+import policies.PaymentRules;
+import reports.ReportSetup;
 import members.Customer;
 import members.Driver;
 import vehicles.OfflineVehicleState;
@@ -369,6 +371,18 @@ public class StaffMenu {
 		System.out
 				.println("You are not registered as some values are either empty or not set properly.");
 		return null;
+	}
+
+	public void generateReports() {
+		ReportSetup setup = new ReportSetup();
+		setup.setup();
+		
+	}
+
+	public void updatePricingRules() {
+
+		PaymentRules rules = new PaymentRules();
+		rules.makeARule();
 	}
 
 }

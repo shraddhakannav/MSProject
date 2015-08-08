@@ -17,7 +17,7 @@ public class MainMenu {
 		System.out.println();
 		System.out.println("=================================================");
 		System.out.println("1. Customer Menu");
-		System.out.println("2. Vehicle and Driver Menu");
+		System.out.println("2. Driver Menu");
 		System.out.println("3. Staff Management Menu");
 		System.out.println("0. Exit");
 		System.out.println("Please Enter you Option: ");
@@ -63,6 +63,9 @@ public class MainMenu {
 				System.out.println("3. Search for Vehicle");
 				System.out.println("4. Retrieve List of Customers");
 				System.out.println("5. Search for Customer");
+				System.out.println("6. Generate Reports");
+				System.out.println("7. Update Pricing Rules");
+				
 				System.out.println("0. Go to Main Menu");
 				System.out.println("Please Enter you Option: ");
 				String line = MainStart.getReader().readLine();
@@ -89,6 +92,12 @@ public class MainMenu {
 					case 5:
 						staffMenu.searchForCustomer();
 						break;
+					case 6:
+						staffMenu.generateReports();
+						break;
+					case 7:
+						staffMenu.updatePricingRules();
+						break;
 					}
 					if (option == 0) {
 						break;
@@ -108,7 +117,7 @@ public class MainMenu {
 				DriverMenu driverMenu = new DriverMenu();
 				System.out.println();
 				System.out
-						.println("Vehicle and Driver Menu____________________________________");
+						.println("Driver Menu____________________________________");
 				System.out.println("1. Registration");
 				System.out.println("2. Login");
 				System.out.println("3. Subscribe for bid requests");
@@ -155,7 +164,6 @@ public class MainMenu {
 				System.out.println("1. Registration");
 				System.out.println("2. Login");
 				System.out.println("3. Request A Cab");
-				System.out.println("4. Payment");
 				System.out.println("0. Go to Main Menu");
 				System.out.println("Please Enter you Option: ");
 				String line = MainStart.getReader().readLine();
@@ -179,20 +187,16 @@ public class MainMenu {
 						break;
 					case 3:
 						Request request = customerMenu.requestACab();
-//						Dispatcher dispatch = new Dispatcher();
-//						dispatch.dispatchRequest(request);
-				
-				if(request!=null){
-					request.waitInQueue();
-					request.processRequest();
-					request.completeRequest();
-					
-				}
-						
-						break;
-					case 4:
-			
-			// customerMenu.makeAPayment();
+						// Dispatcher dispatch = new Dispatcher();
+						// dispatch.dispatchRequest(request);
+
+						if (request != null) {
+							request.waitInQueue();
+							request.processRequest();
+							request.completeRequest();
+
+						}
+
 						break;
 					}
 					if (option == 0) {

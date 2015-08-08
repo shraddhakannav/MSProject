@@ -157,7 +157,7 @@ public class DataAccess {
 				vehicle.setModelNo(rs.getString("model_no"));
 				vehicle.setLicensePlate(rs.getString("license_plate"));
 				vehicle.setDriverName(rs.getString("driver_name"));
-				
+
 				vehicle.setVehicleId(rs.getInt("vehicle_id"));
 				IVehicleState state = null;
 				switch (rs.getString("status").toLowerCase()) {
@@ -643,7 +643,7 @@ public class DataAccess {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block3
-			
+
 			System.out.println("Error in connecting to the database");
 			e1.printStackTrace();
 		}
@@ -759,7 +759,7 @@ public class DataAccess {
 			if (state instanceof HiredVehicleState)
 				string = "hired";
 			if (state instanceof InMaintenanceVehicleState)
-				string = "maintenance";
+				string = "inmaintenance";
 			preparedStatement.setString(6, string);
 
 			Boolean b = preparedStatement.execute();
@@ -831,55 +831,58 @@ public class DataAccess {
 
 	public void insertDriver(Driver c) {
 
-		// String insertDriver = null;
-		// Connection dbConnection = null;
-		//
-		// try {
-		// Class.forName("com.mysql.jdbc.Driver");
-		// } catch (ClassNotFoundException e1) {
-		// // TODO Auto-generated catch block
-		// System.out.println("Error in connecting to the database");
-		// e1.printStackTrace();
-		// }
-		//
-		// try {
-		//
-		// dbConnection = DriverManager.getConnection(URL, USER, PASS);
-		//
-		// insertDriver="INSERT INTO driver"
-		// +
-		// "(driver_license ,reg_date ,shift_start_time , has_carseat , is_petfriendly ,"
-		// + "is_available , driver_rating ,"
-		// +
-		// " current_latitude , current_longitude ,is_observer ,status ,name ,shift_end_time,name)"
-		// + "values"
-		// + "(?,?,?,?,?,"
-		// + "?,?,?,?,?,"
-		// + "?,?,?,?)" ;
-		//
-		// preparedStatement = dbConnection.prepareStatement(insertDriver);
-		// preparedStatement.setString(1, c.getName());
-		// preparedStatement.setString(2, c.getContactNo());
-		// preparedStatement.setString(3, c.getEmail());
-		// preparedStatement.setString(4, c.getShiftStartTime());
-		// preparedStatement.setString(5, c.getShiftEndTime());
-		// preparedStatement.setString(6, c.getRegistrationDate());
-		// preparedStatement.setString(7, c.getShiftDays());
-		// int i = preparedStatement.executeUpdate();
-		// } catch (Exception e) {
-		// System.out.println("Error in Inserting customer information");
-		// e.printStackTrace();
-		// }
-		//
-		// finally {
-		// try {
-		// preparedStatement.close();
-		// dbConnection.close();
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// }
-		//
-		// }
+		String insertDriver = null;
+		Connection dbConnection = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in connecting to the database");
+			e1.printStackTrace();
+		}
+
+		try {
+
+			dbConnection = DriverManager.getConnection(URL, USER, PASS);
+
+			insertDriver = "INSERT INTO driver"
+					+ "(driver_license ,reg_date ,shift_start_time , has_carseat , is_petfriendly ,"
+					+ "is_available , driver_rating ,"
+					+ " current_latitude , current_longitude ,is_observer ,status ,name ,shift_end_time)"
+					+ "values" + "(?,?,?,?,?," + "?,?,?,?,?," + "?,?,?)";
+
+			preparedStatement = dbConnection.prepareStatement(insertDriver);
+			preparedStatement.setString(1, c.getLicenceNo());
+			preparedStatement.setString(2, c.getRegistrationDate());
+			preparedStatement.setString(3, c.getShiftStartTime());
+			preparedStatement.setInt(4, 1);
+			preparedStatement.setInt(5, 1);
+			preparedStatement.setInt(6, 1);
+			preparedStatement.setInt(7, 5);
+			preparedStatement.setInt(8, 0);// Latitude
+			preparedStatement.setInt(9, 0);
+
+			preparedStatement.setInt(10, 1);
+			preparedStatement.setString(11, "offline");
+
+			preparedStatement.setString(12, c.getName());
+			preparedStatement.setString(13, c.getShiftEndTime());
+			int i = preparedStatement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("Error in Inserting customer information");
+			e.printStackTrace();
+		}
+
+		finally {
+			try {
+				preparedStatement.close();
+				dbConnection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
 
 	}
 
@@ -1044,6 +1047,8 @@ public class DataAccess {
 			while (rs.next()) {
 				Driver driver = new Driver();
 				driver.setName(rs.getString("name"));
+				driver.setObserver((rs.getInt("is_observer") == 1) ? true
+						: false);
 				driver.setId(Integer.parseInt(rs.getString("driver_id")));
 				driver.setCurrent_latitude(Integer.parseInt(rs
 						.getString("current_latitude")));
@@ -1069,6 +1074,61 @@ public class DataAccess {
 
 		}
 		return driverList;
+
+	}
+
+	public Driver retreiveDriverByName(String driverName) {
+
+		ArrayList<Driver> driverList = new ArrayList<Driver>();
+		String retreiveDriverByStatus = null;
+		Connection dbConnection = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in connecting to the database");
+			e1.printStackTrace();
+		}
+
+		try {
+			dbConnection = DriverManager.getConnection(URL, USER, PASS);
+			retreiveDriverByStatus = "Select * from driver where name = ?";
+
+			preparedStatement = dbConnection
+					.prepareStatement(retreiveDriverByStatus);
+			// set where condition
+			preparedStatement.setString(1, driverName);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Driver driver = new Driver();
+				driver.setName(rs.getString("name"));
+				driver.setId(Integer.parseInt(rs.getString("driver_id")));
+				driver.setCurrent_latitude(Integer.parseInt(rs
+						.getString("current_latitude")));
+				driver.setCurrent_longitude(Integer.parseInt(rs
+						.getString("current_longitude")));
+				driverList.add(driver);
+				return driver;
+			}
+
+		}
+
+		catch (Exception e) {
+			System.out.println("Error in updating customer information by ID");
+			e.printStackTrace();
+		} finally {
+			try {
+				preparedStatement.close();
+				dbConnection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return null;
 
 	}
 
@@ -1150,7 +1210,7 @@ public class DataAccess {
 				vehicle.setModelNo(rs.getString("model_no"));
 				vehicle.setLicensePlate(rs.getString("license_plate"));
 				vehicle.setDriverName(rs.getString("driver_name"));
-				
+
 				vehicle.setVehicleId(rs.getInt("vehicle_id"));
 				IVehicleState state = null;
 				switch (rs.getString("status").toLowerCase()) {
@@ -1163,7 +1223,7 @@ public class DataAccess {
 				case "for_hire":
 					state = new ForHireVehicleState(vehicle);
 					break;
-				case "maintenance":
+				case "inmaintenance":
 					state = new InMaintenanceVehicleState(vehicle);
 					break;
 

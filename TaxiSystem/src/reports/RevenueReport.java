@@ -17,6 +17,6 @@ public abstract class RevenueReport extends Reports {
 
 	public void addReport(Reports report) {
 		directReports.addElement(report);
-		System.out.println("Report has been added: " + report);
+//		System.out.println("Report has been added: " + report);
 	}
 }
