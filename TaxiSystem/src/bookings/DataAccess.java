@@ -20,7 +20,7 @@ import dispatch.RideClass;
 public class DataAccess {
 
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://localhost:3307/taxi_cab_system";
+	private static final String URL = "jdbc:mysql://localhost/taxi_cab_system";
 	private static final String USER = "root";
 	private static final String PASS = "password";
 
