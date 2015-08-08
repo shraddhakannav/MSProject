@@ -30,7 +30,7 @@ public class Dispatcher  implements DispatcherInterface{
 		int flag=-1;   // 0 for instant cab 1 for taxi
 	
 		// ************   BRIDGE PATTERN *************//
-		Vehicle v1;
+		VehicleType v1;
 		Algorithm algorithm;
 		ArrayList driver_list=dataAccess.retreiveDriverByStatus("for_hire");
 		ArrayList pass_argument=new ArrayList();

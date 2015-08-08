@@ -2,12 +2,12 @@ package dispatch;
 
 import java.util.ArrayList;
 
-public abstract class Vehicle {
+public abstract class VehicleType {
 	
 	protected Algorithm algorithm;
 	public abstract ArrayList callAlgorithm(ArrayList a);
 	
-	public Vehicle(Algorithm a)
+	public VehicleType(Algorithm a)
 	{
 		algorithm=a;
 	}

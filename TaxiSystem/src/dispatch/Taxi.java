@@ -2,7 +2,7 @@ package dispatch;
 
 import java.util.ArrayList;
 
-public class Taxi extends Vehicle{
+public class Taxi extends VehicleType{
 	
 	public Taxi(Algorithm a)
 	{

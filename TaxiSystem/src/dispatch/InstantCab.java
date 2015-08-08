@@ -2,7 +2,7 @@ package dispatch;
 
 import java.util.ArrayList;
 
-public class InstantCab extends Vehicle{
+public class InstantCab extends VehicleType{
 	
 	public InstantCab(Algorithm a)
 	{
