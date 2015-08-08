@@ -1,6 +1,7 @@
 package bookings;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import ui.MainStart;
@@ -8,17 +9,19 @@ import members.Driver;
 
 public class BiddingClient {
 
-	public void startBidding(Request request) {
+	public ArrayList<Driver> startBidding(Request request) {
 		try {
 			Bid bid = request.getBid();
+			ArrayList<Driver> driverList = new ArrayList<Driver>();
 
 			bid.setRequest(request);
 
 			DataAccess da = new DataAccess();
-			List<Driver> list = da.retreiveallDrivers();
+			List<Driver> list = da.retreiveDriverByStatus("available");
 			for (Driver driver : list) {
 				if (driver.isObserver()) {
 					bid.addObserver(driver);
+					driverList.add(driver);
 				}
 			}
 
@@ -32,9 +35,15 @@ public class BiddingClient {
 				double amount = Double.parseDouble(biddingamount);
 			}
 			bid.setFare(bid.getFare());
+
+			return driverList;
+
+			
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			// e.printStackTrace();
+			return null;
 		}
 	}
 }

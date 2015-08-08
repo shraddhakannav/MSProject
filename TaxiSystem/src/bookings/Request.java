@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Request implements RequestInterface {
 
-	private int requestId;
+	private long requestId;
 	RequestState state;
 	private String requestType;
 
@@ -16,7 +16,7 @@ public class Request implements RequestInterface {
 
 	private Date bookingDate;
 	private String CarType;
-	private int FareEstimation;
+	private double FareEstimation;
 	private Bid bid;
 	private boolean petFriendlyFlag;
 	private boolean CarSeatFlag;
@@ -81,18 +81,8 @@ public class Request implements RequestInterface {
 		this.bid = bid;
 	}
 
+	
 	public Request() {
-
-	}
-
-	public Request(String requestType, String pickUplocation,
-			String destination, Date bookingDate, String CarType, Bid bid) {
-		this.requestType = requestType;
-		this.pickUpLocation = pickUplocation;
-		this.destination = destination;
-		this.bookingDate = bookingDate;
-		this.CarType = CarType;
-		this.bid = bid;
 		state = new WaitingState(this);
 	}
 
@@ -130,12 +120,12 @@ public class Request implements RequestInterface {
 		this.state = state;
 	}
 
-	public int getRequestId() {
+	public long getRequestId() {
 		return requestId;
 	}
 
-	public void setRequestId(int requestId) {
-		this.requestId = requestId;
+	public void setRequestId(long time) {
+		this.requestId = time;
 	}
 
 	public String getRequestType() {
@@ -162,12 +152,12 @@ public class Request implements RequestInterface {
 		this.destination = destination;
 	}
 
-	public int getFareEstimation() {
+	public double getFareEstimation() {
 		return FareEstimation;
 	}
 
-	public void setFareEstimation(int fareEstimation) {
-		FareEstimation = fareEstimation;
+	public void setFareEstimation(double avg) {
+		FareEstimation = avg;
 	}
 
 	public Date getBookingDate() {
@@ -201,6 +191,7 @@ public class Request implements RequestInterface {
 		sb.append("\nCar Type: " + CarType);
 		sb.append("\nPet Friendly: " + petFriendlyFlag);
 		sb.append("\nCar Seat: " + CarSeatFlag);
+		sb.append("\nEstimated Fare: " + FareEstimation);
 		if (bid != null)
 			sb.append("\nBidding Fare: " + bid.getFare());
 

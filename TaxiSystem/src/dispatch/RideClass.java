@@ -1,6 +1,13 @@
 package dispatch;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
+
+import bookings.DataAccess;
+import payments.PaymentContext;
+import payments.PaymentType;
 
 public class RideClass implements Ride{
 	
@@ -35,11 +42,48 @@ public class RideClass implements Ride{
 	};
 	
 	
-	
+	public void makePayment(RideClass rideClass)
+	{
+		
+		Double fare=rideClass.getFare();
+		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Dear Customer how you would like to pay?");
+		System.out.println("1 : Cash");
+		System.out.println("2 : Card");
+		System.out.println("3 : Paypal");
+		
+		String input="";
+		try {
+			input = bufferRead.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PaymentType paymentType;
+		if(input.equals("1"))
+		  paymentType = PaymentType.CASH; 
+		else if(input.equals("2"))
+			  paymentType = PaymentType.CREDITCARD; 
+		else
+			  paymentType = PaymentType.PAYPAL; 
+		
+		PaymentContext paymentContext = new PaymentContext();
+		paymentContext.pay(paymentType, fare.intValue());
+		rideClass.setPayment_type(paymentType.toString());
+		DataAccess dataAccess=new DataAccess();
+		dataAccess.insertRideDetails(rideClass);
+		
+		
+		
+		/// create ride object///
+		
+				
+				
+	}
 	
 	//// for all getters and setters
 	
-	private int request_id;
+	private long request_id;
 	private int driver_id;
 	private Date start_time;
 	private Date end_time;
@@ -51,12 +95,12 @@ public class RideClass implements Ride{
 	
 	
 	
-	public int getRequest_id() {
+	public long getRequest_id() {
 		return request_id;
 	}
 
-	public void setRequest_id(int request_id) {
-		this.request_id = request_id;
+	public void setRequest_id(long l) {
+		this.request_id = l;
 	}
 
 	public int getDriver_id() {

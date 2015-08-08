@@ -3,7 +3,7 @@ package payments;
 public class CashPayment implements PaymentStrategy {
 
 	public void pay(int amount) {
-		System.out.println(amount + " paid with cash");
+		System.out.println("$"+amount + " paid with cash");
 	}
 
 	public String notifySettlement() {

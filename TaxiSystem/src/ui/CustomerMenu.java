@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.BufferedReader;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,14 @@ public class CustomerMenu {
 
 	private BufferedReader reader;
 	private static Customer loggedCustomer;
+
+	public static Customer getLoggedCustomer() {
+		return loggedCustomer;
+	}
+
+	public static void setLoggedCustomer(Customer loggedCustomer) {
+		CustomerMenu.loggedCustomer = loggedCustomer;
+	}
 
 	public CustomerMenu() {
 		reader = MainStart.getReader();
@@ -55,12 +64,14 @@ public class CustomerMenu {
 
 			System.out.println("Do you want to Submit registration? [y:n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
-				
+
 				DataAccess da = new DataAccess();
-				da.insertCustomer(customer);
-				
-				System.out.println("You are successfully registered.");
-				loggedCustomer = customer;
+				int i = da.insertCustomer(customer);
+				if (i > 0) {
+					System.out.println("You are successfully registered.");
+					loggedCustomer = customer;
+				}
+
 				return customer;
 
 			} else {
@@ -86,13 +97,13 @@ public class CustomerMenu {
 			System.out.println("Please Enter your Username: ");
 			String username = reader.readLine();
 
-			System.out.println(username);
+			// System.out.println(username);
 			DataAccess da = new DataAccess();
 			Customer cust = da.retreiveCustomerByName(username);
 			if (cust != null) {
 				loggedCustomer = cust;
-				System.out
-						.println("You are successfully logged into the system.");
+				System.out.println(username + "  "
+						+ ",You are successfully logged into the system.");
 			} else {
 				System.out.println("You are not a registered user.");
 			}
@@ -108,15 +119,17 @@ public class CustomerMenu {
 		try {
 
 			Request request = new Request();
+			long time = System.currentTimeMillis();
+			request.setRequestId(time);
 			System.out.println();
 			System.out
 					.println("___________________________________________________________________");
-			System.out.println("Request A Cab Details");
+			System.out.println("Request a ride ");
 			System.out
 					.println("___________________________________________________________________");
 			System.out.println("Please enter details: ");
 
-			System.out.println("Do you want to ride in Taxi or Instant Cab: ");
+			System.out.println("Do you want to ride in Taxi or a InstantCab: ");
 			request.setRequestType(reader.readLine());
 
 			HashMap<String, Location> locations = LocationMapping
@@ -147,29 +160,19 @@ public class CustomerMenu {
 			request.setDestY(location2.y);
 			request.setDestination(selected);
 
-			System.out.println("Booking Date[MM/dd/yyyy hh:mm]: ");
+			Date date = null;
+			while (date == null) {
+				date = getInputBookingDate();
+				if (date == null) {
+					System.out
+							.println("Please enter the date in proper format.");
+				}
+			}
 
-			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
-			java.util.Date parsed = (java.util.Date) format.parse(reader
-					.readLine());
-			java.sql.Date sqlDate = new java.sql.Date(parsed.getTime());
+			request.setBookingDate(date);
 
-			request.setBookingDate(sqlDate);
-
-			System.out.println("Car Type [instant/luxury/taxi]: ");
+			System.out.println("Enter Type [Basic/Luxury]: ");
 			request.setCarType(reader.readLine());
-
-			System.out.println("Do you want a Car Seat [y/n]: ");
-			if (reader.readLine().equalsIgnoreCase("y")) {
-				request.setCarSeatFlag(true);
-			} else
-				request.setCarSeatFlag(false);
-
-			System.out.println("Do you want a pet friendly car [y/n]: ");
-			if (reader.readLine().equalsIgnoreCase("y")) {
-				request.setPetFriendlyFlag(true);
-			} else
-				request.setPetFriendlyFlag(false);
 
 			System.out.println("Do you want to bid for Cab [y/n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
@@ -181,7 +184,30 @@ public class CustomerMenu {
 				request.setBid(bid);
 			}
 
-			calculateFare(request);
+			System.out.println("Do you want a Car Seat [y/n]: ");
+			if (reader.readLine().equalsIgnoreCase("y")) {
+				// DECORATOR PATTERN TO ADD CAR SEAT FEATURE
+
+				CarSeatDecorator decoratedRequest = new CarSeatDecorator(
+						request);
+				// request.setCarSeatFlag(true);
+			} else
+				request.setCarSeatFlag(false);
+
+			System.out.println("Do you want a pet friendly car [y/n]: ");
+			if (reader.readLine().equalsIgnoreCase("y")) {
+
+				// DECORATOR PATTERN TO ADD PET FRIENDLY FEATURE
+
+				PetFriendlyDecorator decoratedRequest = new PetFriendlyDecorator(
+						request);
+
+				// request.setPetFriendlyFlag(true);
+			} else
+				request.setPetFriendlyFlag(false);
+
+			double avg = calculateFare(request);
+			request.setFareEstimation(avg);
 
 			System.out.println("Do you want to submit a request? [y/n]: ");
 			if (reader.readLine().equalsIgnoreCase("y")) {
@@ -189,6 +215,9 @@ public class CustomerMenu {
 						.println("Your Request has been created. Please wait for connecting to drivers.");
 
 				System.out.println(request.toString());
+
+				// STATE PATTERN FOR DIFFERENT REQUEST STATES
+
 				return request;
 
 			} else {
@@ -207,7 +236,20 @@ public class CustomerMenu {
 
 	}
 
-	private void calculateFare(Request request) {
+	private java.sql.Date getInputBookingDate() {
+		try {
+			System.out.println("Booking Date[MM/dd/yyyy hh:mm]: ");
+
+			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm");
+			java.util.Date parsed = (java.util.Date) format.parse(reader
+					.readLine());
+			return new java.sql.Date(parsed.getTime());
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	private double calculateFare(Request request) {
 		// TODO Auto-generated method stub
 
 		int x1 = request.getPickX();
@@ -217,9 +259,17 @@ public class CustomerMenu {
 
 		double power = Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2);
 		double distance = Math.sqrt(power);
-		
-		
-		
 
+		Pricing p = new DataAccess().retreivePricing(request.getRequestType(),
+				request.getCarType());
+		while (p != null) {
+
+			double fareNormal = p.getNormalRate() * distance;
+			double farePeak = p.getPeakRate() * distance;
+			double avg = (fareNormal + farePeak) / 2;
+
+			return avg;
+		}
+		return 0;
 	}
 }

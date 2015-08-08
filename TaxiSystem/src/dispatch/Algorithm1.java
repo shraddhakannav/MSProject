@@ -25,7 +25,7 @@ public class Algorithm1 extends Algorithm {
 			int d1=mediate.getCurrent_latitude();
 			int d2=mediate.getCurrent_longitude();
 			int distance=(int)Math.sqrt(  ((d1-r1)*(d1-r1))    +       ((d2-r2)*(d2-r2))   );
-			mediate.setDistance(distance);
+ 			mediate.setDistance(distance);
 		}
 		//System.out.println("driverInfo  "+driverInfo);
 		for(int i=0;i<15;i++)

@@ -52,7 +52,7 @@ public class Vehicle implements IVehicle {
 
 	public Vehicle() {
 		state = new OffilineVehicleState(this);
-		System.out.println("In Vehicle Constructor");
+		//System.out.println("In Vehicle Constructor");
 	}
 
 	public void becomeAvailable() {

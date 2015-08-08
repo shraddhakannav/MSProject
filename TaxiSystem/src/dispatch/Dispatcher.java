@@ -1,27 +1,26 @@
 package dispatch;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+import payments.PaymentType;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import members.Driver;
+import ui.MainMenu;
+import bookings.BiddingClient;
 import bookings.DataAccess;
 import bookings.Request;
 
 public class Dispatcher  implements DispatcherInterface{
 	
 	public void dispatchRequest(Request request)
-//	public static void main(String arg[]) 
+   //public static void main(String arg[]) 
 	{
 		try{
 			
-			// Request request=new Request();
-			// request.setPickX(0);
-			// request.setPickY(0);
-			// request.setDestX(0);
-			// request.setDestY(0);		
-			
+		RideClass rideClass=new RideClass();
+		boolean is_start=false;
+		boolean noAvailableDrivers=false;
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 		DataAccess dataAccess=new DataAccess();
 		Driver confirmedDriver=new Driver(); 
@@ -31,13 +30,53 @@ public class Dispatcher  implements DispatcherInterface{
 		// ************   BRIDGE PATTERN *************//
 		Vehicle v1;
 		Algorithm algorithm;
-		ArrayList driver_list=dataAccess.retreiveDriverByStatus("available");
+		ArrayList driver_list=dataAccess.retreiveDriverByStatus("for_hire");
 		ArrayList pass_argument=new ArrayList();
 		pass_argument.add(request);
 		pass_argument.add(driver_list);
+		
+		
+		if(request.getRequestType().equalsIgnoreCase("InstantCab"))
+		{
 		algorithm=new Algorithm1();
 		v1=new InstantCab(algorithm);
-		ArrayList result=v1.callAlgorithm(pass_argument);
+		}
+		else 
+		{
+			algorithm=new Algorithm2();
+			v1=new InstantCab(algorithm);
+		}
+		
+		
+		
+		//////////////  shraddha
+		ArrayList<Driver> result = null;
+
+
+		if (request.getBid() == null) {
+
+		result = v1.callAlgorithm(pass_argument);
+
+		} else {
+
+		request.getBid().setRequest(request);
+
+		BiddingClient client = new BiddingClient();
+
+		result = client.startBidding(request); // Calling Observer
+
+		// pattern
+
+		}
+		///////ends
+		
+		
+		//ArrayList result=v1.callAlgorithm(pass_argument);
+		if(result==null || result.size()==0)
+		{
+			System.out.println("No Drivers Available. Kindly try after some time.");
+			MainMenu mainMenu = new MainMenu();
+		}
 		//System.out.println("result  "+result);
 		
 		// ************   BRIDGE PATTERN ENDS *************//
@@ -48,31 +87,25 @@ public class Dispatcher  implements DispatcherInterface{
 			
 			System.out.println("");
 			System.out.println("");
-			System.out.println("Driver No "+ temp.getDistance()+" do you want to accept this Ride? [Y/N]");
-			
-			
-			
-			
+			System.out.println("Driver No "+ temp.getId()+" do you want to accept this Ride? [Y/N]");
 			System.out.println("");
 	        String s = bufferRead.readLine();
 	        if(s.equalsIgnoreCase("Y"))
 	        {
 	        	confirmedDriver=temp;
 	        	i=result.size();
-	        	System.out.println(temp.getName());
-	    		System.out.println(confirmedDriver.getName());
 	    		vehicles.Vehicle vehicle=dataAccess.retreiveVehicleByDriver(confirmedDriver.getName());
 	    		System.out.println("");
 	    		System.out.println("Dear Customer your ride is confirmed. These are the details : :");
-	    		System.out.println("Dear Customer your ride is confirmed. These are the details : :");
+	    		System.out.println("Driver Name : "+vehicle.getDriverName());
+	    		System.out.println("Vehicle Licence : "+vehicle.getLicensePlate());
+	    		System.out.println("Vehicle Color : "+vehicle.getVehicleColor());
 	    		
 	        }
 	       
 		}    /// drivers confirmed
 		
-		RideClass rideClass=new RideClass();
-		rideClass.setDriver_id(1);
-		boolean is_start=false;
+		
 		
 		
 		do
@@ -136,6 +169,18 @@ public class Dispatcher  implements DispatcherInterface{
 //		}
 //		else
 //			rideClass.endRide();
+		
+		rideClass.setRequest_id(request.getRequestId());
+		rideClass.setDriver_id(confirmedDriver.getId());
+		rideClass.setStart_time(new java.util.Date());
+		rideClass.setEnd_time(new java.util.Date());
+		rideClass.setFare(request.getFareEstimation());
+		
+		rideClass.setDriver_rating(0);
+		rideClass.setUser_rating(0);
+		rideClass.setStatus("Completed");
+		
+		rideClass.makePayment(rideClass);
 		
 		
 	}

@@ -1,5 +1,7 @@
 package bookings;
 
+import dispatch.Dispatcher;
+
 
 
 public class ProcessingState implements RequestState{
@@ -21,16 +23,22 @@ public class ProcessingState implements RequestState{
 	public String processRequest() {
 		// Add this to the main program
 		//
-		IDispatcher dispatch = new Dispatcher();
-		Ride ride = dispatch.dispatchRequest();
-		if(ride!=null){
+		
+		Dispatcher dispatch = new Dispatcher();
+		Request newreq = (Request)request;
+		try{
+			dispatch.dispatchRequest(newreq);
+		
 			request.setState(new BookedState(request));
 			return "Booking successful";
 		}
-		else{
+		
+		catch(Exception e){
 
 			return "Booking failed, Please try again";
 		}
+		
+	
 	}
 
 	@Override
@@ -44,7 +52,9 @@ public class ProcessingState implements RequestState{
 
 		return null;
 	}
-
+	public String toString(){
+		return "Processing";
+	}
 
 
 

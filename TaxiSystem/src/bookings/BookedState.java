@@ -29,7 +29,13 @@ public class BookedState implements RequestState{
 	@Override
 	public String completeRequest() {
 		// TODO Auto-generated method stub
-		request.setState(new WaitingState(request));
+	//request.setState(new WaitingState(request));
+	//	new DataAccess().insertRequest(request, customerId);
+				
 		return "Request completed successfully";
+	}
+	
+	public String toString(){
+		return "Booked";
 	}
 }

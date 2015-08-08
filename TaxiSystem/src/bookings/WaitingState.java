@@ -1,5 +1,9 @@
 package bookings;
 
+import java.sql.SQLException;
+
+import ui.CustomerMenu;
+
 
 
 public class WaitingState implements RequestState {
@@ -25,8 +29,15 @@ public class WaitingState implements RequestState {
 
 		//		Queue<RequestInterface> queue = new LinkedList<RequestInterface>();
 		//		queue.add(request);
+		Request newreq = (Request)request;
+		try {
+			new DataAccess().insertRequest(newreq, CustomerMenu.getLoggedCustomer());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in inserting customer request");
+		}
 		request.setState(new ProcessingState(request));
-		return "Request placed in Queue";
+		return "Request recorded";
 	}
 
 	@Override
@@ -49,7 +60,9 @@ public class WaitingState implements RequestState {
 		return "Cannot cancel: Request not booked yet";
 	}
 
-
+	public String toString(){
+	return "Created";
+}
 
 
 

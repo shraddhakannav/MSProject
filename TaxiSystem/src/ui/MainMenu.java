@@ -5,7 +5,6 @@ import java.io.IOException;
 import dispatch.Dispatcher;
 import members.Customer;
 import members.Driver;
-import bookings.BiddingClient;
 import bookings.Request;
 
 public class MainMenu {
@@ -180,18 +179,20 @@ public class MainMenu {
 						break;
 					case 3:
 						Request request = customerMenu.requestACab();
-
-						if (request.getBid() != null) {
-							BiddingClient client = new BiddingClient();
-							client.startBidding(request);
-
-						} else {
-							Dispatcher dispatch = new Dispatcher();
-							dispatch.dispatchRequest(request);
-						}
+//						Dispatcher dispatch = new Dispatcher();
+//						dispatch.dispatchRequest(request);
+				
+				if(request!=null){
+					request.waitInQueue();
+					request.processRequest();
+					request.completeRequest();
+					
+				}
+						
 						break;
 					case 4:
-						// customerMenu.makeAPayment();
+			
+			// customerMenu.makeAPayment();
 						break;
 					}
 					if (option == 0) {
