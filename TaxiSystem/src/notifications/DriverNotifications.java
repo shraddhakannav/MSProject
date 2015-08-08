@@ -1,18 +1,18 @@
 package notifications;
 
-public class DriverNotifications extends NotificationCenter{
+public class DriverNotifications extends NotificationCenter1{
 
-	@Override
-	public void notifyCustomer(int id, String message) {
-		System.out.println("Customer " + id + "got notification message: '"
-				+ message + "'");
+	private String Message;
+	public DriverNotifications(Communication1 communication, String message) {
+		super(communication);
+		Message = message;
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void notifyDriver(int id, String message) {
-		System.out.println("Driver " + id + "got notification message: '"
-				+ message + "'");
-
+	public void notifyMember() {
+		notifyDriver(Message);
+		
 	}
 
 

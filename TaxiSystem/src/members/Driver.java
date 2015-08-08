@@ -60,9 +60,9 @@ public class Driver extends Member {
 	public String toString() {
 
 		String string = this.getName();
-		
+
 		String driverStr = "Registartion Date: " + this.getRegistrationDate();
-				
+
 		return string + ": " + driverStr;
 	}
 

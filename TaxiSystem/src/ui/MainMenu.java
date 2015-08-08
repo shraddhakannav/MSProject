@@ -8,6 +8,14 @@ import members.Driver;
 import bookings.Request;
 
 public class MainMenu {
+
+	private Customer customer = new Customer();
+	private Request request = new Request();
+	private StaffMenu staffMenu = new StaffMenu();
+	private DriverMenu driverMenu = new DriverMenu();
+	private CustomerMenu customerMenu = new CustomerMenu();
+	private Driver driver = new Driver();
+
 	public MainMenu() {
 		while (true)
 			printMainMenu();
@@ -54,7 +62,7 @@ public class MainMenu {
 	private void printStaffMenu() {
 		try {
 			while (true) {
-				StaffMenu staffMenu = new StaffMenu();
+				staffMenu = new StaffMenu();
 				System.out.println();
 				System.out
 						.println("Staff Management Menu____________________________________");
@@ -65,7 +73,6 @@ public class MainMenu {
 				System.out.println("5. Search for Customer");
 				System.out.println("6. Generate Reports");
 				System.out.println("7. Update Pricing Rules");
-				
 				System.out.println("0. Go to Main Menu");
 				System.out.println("Please Enter you Option: ");
 				String line = MainStart.getReader().readLine();
@@ -114,7 +121,7 @@ public class MainMenu {
 		try {
 			while (true) {
 
-				DriverMenu driverMenu = new DriverMenu();
+				// driverMenu = new DriverMenu();
 				System.out.println();
 				System.out
 						.println("Driver Menu____________________________________");
@@ -133,7 +140,7 @@ public class MainMenu {
 					case 0:
 						break;
 					case 1:
-						Driver driver = driverMenu.registration();
+						driver = driverMenu.registration();
 						System.out.println(driver.toString());
 						break;
 					case 2:
@@ -164,6 +171,7 @@ public class MainMenu {
 				System.out.println("1. Registration");
 				System.out.println("2. Login");
 				System.out.println("3. Request A Cab");
+				// System.out.println("4. Payment");
 				System.out.println("0. Go to Main Menu");
 				System.out.println("Please Enter you Option: ");
 				String line = MainStart.getReader().readLine();
@@ -171,13 +179,13 @@ public class MainMenu {
 					System.out.println("Wrong Input. Please enter again.");
 					printMainMenu();
 				} else {
-					CustomerMenu customerMenu = new CustomerMenu();
+					// CustomerMenu customerMenu = new CustomerMenu();
 					int option = Integer.parseInt(line);
 					switch (option) {
 					case 0:
 						break;
 					case 1:
-						Customer customer = customerMenu.registration();
+						customer = customerMenu.registration();
 						if (customer != null) {
 							customer.toString();
 						}
@@ -186,24 +194,31 @@ public class MainMenu {
 						customerMenu.login();
 						break;
 					case 3:
-						Request request = customerMenu.requestACab();
+						if (CustomerMenu.getLoggedCustomer() != null) {
+							request = customerMenu.requestACab();
+							if (request != null) {
+								request.waitInQueue();
+								request.processRequest();
+								request.completeRequest();
+
+							}
+						} else {
+							System.out.println("Please login first");
+
+							customerMenu.login();
+						}
 						// Dispatcher dispatch = new Dispatcher();
 						// dispatch.dispatchRequest(request);
 
-						if (request != null) {
-							request.waitInQueue();
-							request.processRequest();
-							request.completeRequest();
-
+						break;
+					}
+						if (option == 0) {
+							break;
 						}
+					}
 
-						break;
-					}
-					if (option == 0) {
-						break;
-					}
 				}
-			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

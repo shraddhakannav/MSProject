@@ -1,22 +1,18 @@
 package notifications;
 
-public class Phone extends Communication {
-
-	int id;
-	int phone;
-
-	public Phone(NotificationCenter notification, int id, int phone) {
-		super(notification);
-		this.phone = phone;
-		this.id = id;
-	}
+public class Phone extends Communication1 {
 
 	@Override
-	public void notifyMember() {
-		notifyCustomers(id, "Calling to Customer " + id);
-		notifyDrivers(id, "Calling to Driver " + id);
-		System.out.println("Calling on phone: '" + phone
-				+ "' to Customer and Driver" + id);
+	public void notifyCustomer(String message) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("Notifying via phone: " + message + " to Customer");
+	}
+	@Override
+	public void notifyDriver(String message){
+		System.out.println("Notifying via phone: " + message + " to Driver");
+	}
+	
 	}
 
-}
+

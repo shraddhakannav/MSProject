@@ -20,12 +20,14 @@ public class Dispatcher  implements DispatcherInterface{
 			
 		RideClass rideClass=new RideClass();
 		boolean is_start=false;
-		boolean noAvailableDrivers=false;
+		boolean cancel_ride=false;
+		boolean noAvailableDrivers=true;
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 		DataAccess dataAccess=new DataAccess();
 		Driver confirmedDriver=new Driver(); 
 		String status="delay";
 		String command="-1";
+		int flag=-1;   // 0 for instant cab 1 for taxi
 	
 		// ************   BRIDGE PATTERN *************//
 		Vehicle v1;
@@ -40,11 +42,13 @@ public class Dispatcher  implements DispatcherInterface{
 		{
 		algorithm=new Algorithm1();
 		v1=new InstantCab(algorithm);
+		flag=0;
 		}
 		else 
 		{
 			algorithm=new Algorithm2();
 			v1=new InstantCab(algorithm);
+			flag=1;
 		}
 		
 		
@@ -80,7 +84,10 @@ public class Dispatcher  implements DispatcherInterface{
 		//System.out.println("result  "+result);
 		
 		// ************   BRIDGE PATTERN ENDS *************//
-		
+		if(flag==0)
+		{
+		while(noAvailableDrivers)
+		{
 		for(int i=0;i<result.size();i++)
 		{
 			Driver temp=(Driver)result.get(i);
@@ -100,11 +107,24 @@ public class Dispatcher  implements DispatcherInterface{
 	    		System.out.println("Driver Name : "+vehicle.getDriverName());
 	    		System.out.println("Vehicle Licence : "+vehicle.getLicensePlate());
 	    		System.out.println("Vehicle Color : "+vehicle.getVehicleColor());
+	    		noAvailableDrivers=false;
 	    		
 	        }
 	       
 		}    /// drivers confirmed
+		}}
 		
+		else
+		{
+			Driver temp=(Driver)result.get(0);
+			confirmedDriver=temp;
+			vehicles.Vehicle vehicle=dataAccess.retreiveVehicleByDriver(temp.getName());
+    		System.out.println("");
+    		System.out.println("Dear Customer your ride is confirmed. These are the details : :");
+    		System.out.println("Driver Name : "+vehicle.getDriverName());
+    		System.out.println("Vehicle Licence : "+vehicle.getLicensePlate());
+    		System.out.println("Vehicle Color : "+vehicle.getVehicleColor());
+		}
 		
 		
 		
@@ -147,12 +167,22 @@ public class Dispatcher  implements DispatcherInterface{
     		}
     		else
     		{
+    			if(s.equals("4"))
+    				cancel_ride=true;
     			rideClass.modifyRide(s);
     			command="-2";
     		}
 		}
 		while(!command.equals("-2"));
 		
+		
+		///if ride is cancelledd
+		
+		if(cancel_ride)
+		{
+			System.out.println("Your Ride is cancelled.");
+			MainMenu mainMenu = new MainMenu();
+		}
 		
 		
 		

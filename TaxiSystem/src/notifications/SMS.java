@@ -1,21 +1,21 @@
 package notifications;
 
-public class SMS extends Communication {
+public class SMS extends Communication1 {
 
-	int id;
-	String message;
-
-	public SMS(NotificationCenter notification, int custId, String message) {
-		super(notification);
-		this.id = custId;
-		this.message = message;
-	}
+	
+	
 
 	@Override
-	public void notifyMember() {
+	public void notifyCustomer(String message) {
 		// TODO Auto-generated method stub
-		notifyCustomers(id, message);
-		System.out.println("Sending SMS: '" + message + "' to Customer" + id);
+		
+		System.out.println("Sending SMS: '" + message + "' to Customer");
+	}
+	@Override
+	public void notifyDriver(String message){
+		System.out.println("Sending SMS: '" + message + "' to Driver");
+	}
+		
 	}
 
-}
+

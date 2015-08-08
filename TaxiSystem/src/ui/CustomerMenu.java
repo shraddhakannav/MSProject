@@ -190,6 +190,7 @@ public class CustomerMenu {
 
 				CarSeatDecorator decoratedRequest = new CarSeatDecorator(
 						request);
+				decoratedRequest.addCarSeat();
 				// request.setCarSeatFlag(true);
 			} else
 				request.setCarSeatFlag(false);
@@ -201,6 +202,7 @@ public class CustomerMenu {
 
 				PetFriendlyDecorator decoratedRequest = new PetFriendlyDecorator(
 						request);
+				decoratedRequest.makePetFriendly();
 
 				// request.setPetFriendlyFlag(true);
 			} else

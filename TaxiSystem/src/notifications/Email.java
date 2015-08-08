@@ -1,21 +1,16 @@
 package notifications;
 
-public class Email extends Communication {
-
-	int id;
-	String message;
-
-	public Email(NotificationCenter notification, int custId, String message) {
-		super(notification);
-		this.id = custId;
-		this.message = message;
-	}
+public class Email extends Communication1 {
 
 	@Override
-	public void notifyMember() {
+	public void notifyCustomer(String message) {
 		// TODO Auto-generated method stub
-		notifyCustomers(id, message);
-		System.out.println("Sending Email: '" + message + "' to Customer" + id);
+		
+		System.out.println("Notifying via email: " + message + " to Customer");
 	}
-
+	@Override
+	public void notifyDriver(String message){
+		System.out.println("Notifying via email: " + message + " to Driver");
+	}
+	
 }

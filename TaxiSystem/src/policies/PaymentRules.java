@@ -51,27 +51,49 @@ public class PaymentRules extends Rule{
 
 	public Pricing rulesForm(){
 
-		System.out.println("Select Cab type:  1. Taxi 2.Instant 3. Luxury");
+		System.out.println("Select Cab type:  1. Taxi 2.InstantCab");
 		Pricing p = new Pricing();
 		try{
 			String input;
 			input = MainStart.getReader().readLine();
 			int cabtype= Integer.parseInt(input);
+			int sub_type;
 			switch (cabtype) {
 			case 0:
 				break;
 			case 1:
 				p.setCabType("taxi");
-
+				System.out.println("Select Sub type:  1. Basic 2.Luxury");
+				input = MainStart.getReader().readLine();
+				sub_type= Integer.parseInt(input);
+				if(sub_type==1)
+				{
+					p.setSubType("basic");
+					}
+				else
+				{
+					p.setSubType("luxury");
+					
+				}
+				
 				break;
 			case 2:
-				p.setCabType("instant");
+				p.setCabType("instantcab");
+				System.out.println("Select Sub type:  1. Basic 2.Luxury");
+				input = MainStart.getReader().readLine();
+				sub_type= Integer.parseInt(input);
+				if(sub_type==1)
+				{
+					p.setSubType("basic");}
+				else
+				{
+					p.setSubType("luxury");
+				}
 				break;
-			case 3:
-				p.setCabType("luxury");
-				break;
+			
 
 			}
+	
 			System.out.println("Set Price: 1.Normal Hour rate/mile  2.Peak Hour rate/mile");
 			input = MainStart.getReader().readLine();
 			int priceType= Integer.parseInt(input);
@@ -112,9 +134,3 @@ public class PaymentRules extends Rule{
 	}
 
 }
-
-
-
-
-
-

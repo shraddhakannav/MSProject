@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 
+import notifications.Communication1;
+import notifications.CustomerNotifications;
+import notifications.Email;
+import notifications.NotificationCenter1;
+import notifications.SMS;
 import bookings.DataAccess;
 import payments.PaymentContext;
 import payments.PaymentType;
@@ -72,6 +77,18 @@ public class RideClass implements Ride{
 		rideClass.setPayment_type(paymentType.toString());
 		DataAccess dataAccess=new DataAccess();
 		dataAccess.insertRideDetails(rideClass);
+		
+		// Notify customer and driver
+		//////  BRIDGE pattern starts
+		NotificationCenter1 notificationCenter1;
+		Communication1 communication1;
+		communication1=new SMS();
+		notificationCenter1=new CustomerNotifications(communication1,"Payment Successful.");
+		notificationCenter1.notifyMember();
+		
+		communication1=new Email();
+		notificationCenter1=new CustomerNotifications(communication1,"Payment Successful.");
+		notificationCenter1.notifyMember();
 		
 		
 		

@@ -52,7 +52,7 @@ public class Vehicle implements IVehicle {
 
 	public Vehicle() {
 		state = new OfflineVehicleState(this);
-		//System.out.println("In Vehicle Constructor");
+		// System.out.println("In Vehicle Constructor");
 	}
 
 	public void becomeAvailable() {
@@ -86,11 +86,17 @@ public class Vehicle implements IVehicle {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+
 		sb.append("\nVehicle " + vehicleId + "--------------------------");
+
 		sb.append("\nType: " + vehicleType);
+
 		sb.append("\nColor: " + vehicleColor);
+
 		sb.append("\nModel No: " + modelNo);
+
 		sb.append("\nLicense Plate: " + licensePlate);
+
 		sb.append("\nDriver Name: " + driverName);
 
 		return sb.toString();
